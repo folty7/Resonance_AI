@@ -28,38 +28,16 @@ router.post('/smart-sort', async (req, res) => {
             return res.status(400).json({ error: "No saved tracks found in library." });
         }
 
-        const trackIds = rawTracks.map(t => t.id);
-
-        // 2. Fetch Audio Features in chunks (100 is max per request, so one request is fine here)
-        console.log(`Fetching audio features for ${trackIds.length} tracks...`);
-        const audioFeatures = await spotifyService.getAudioFeatures(api, trackIds);
-
-        // 3. Map features to tracks for AI consumption
-        const combinedData = rawTracks.map(track => {
-            const feature = audioFeatures.find(af => af && af.id === track.id);
-            return {
-                id: track.id,
-                uri: track.uri,
-                name: track.name,
-                artists: track.artists,
-                tempo: feature?.tempo,
-                energy: feature?.energy,
-                danceability: feature?.danceability,
-                valence: feature?.valence, // mood/happiness
-                acousticness: feature?.acousticness
-            };
-        });
-
-        // 4. Send to Gemini
+        // 4. Send to Gemini using basic track names and artists
         console.log("Calling Gemini API...");
-        const categorizedUris = await aiService.generateSmartSort(combinedData);
+        const categorizedUris = await aiService.generateSmartSort(rawTracks);
 
         // 5. Structure the final response for frontend rendering
         // Map the categorized URIs back to the raw track objects so the UI can display titles/artists
         const categorizedData = {};
         for (const [category, trackUris] of Object.entries(categorizedUris)) {
             categorizedData[category] = trackUris.map(uri => {
-                return combinedData.find(t => t.uri === uri) || { uri, name: "Unknown Track", artists: "Unknown" };
+                return rawTracks.find(t => t.uri === uri) || { uri, name: "Unknown Track", artists: "Unknown" };
             });
         }
 

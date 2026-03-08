@@ -12,8 +12,9 @@ const generateSmartSort = async (tracksData) => {
         const leanPayload = JSON.stringify(tracksData);
 
         // Create the system prompt enforcing a strict JSON schema
-        const prompt = `You are a music curator AI. Your task is to analyze the provided list of Spotify tracks, their artists, and their audio features (like tempo, energy, danceability, valence, acousticness).
-    Sort these tracks into creative, vibe-based categories (e.g., "Late Night Drive", "Workout Anthems", "Chill Focus", "Upbeat Morning").
+        const prompt = `You are an expert music curator AI. Your task is to analyze the provided list of Spotify tracks and their artists.
+    Sort these tracks into creative, vibe-based or genre-based categories (e.g., "Late Night Drive", "Workout Anthems", "Chill Focus", "Upbeat Morning").
+    Use your vast knowledge of these artists and songs to infer the mood and genre since raw audio features are not provided.
     
     Rules:
     1. Every single track provided MUST be placed into exactly ONE category.
@@ -25,11 +26,7 @@ const generateSmartSort = async (tracksData) => {
     {
       "Late Night Drive": ["spotify:track:12345", "spotify:track:67890"],
       "Workout Anthems": ["spotify:track:abcde", "spotify:track:fghij"]
-    }
-    
-    Track Data:
-    ${leanPayload}
-    `;
+    }`;
 
         const response = await ai.models.generateContent({
             model: 'gemini-2.5-flash',

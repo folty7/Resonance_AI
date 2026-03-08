@@ -31,23 +31,7 @@ const getSavedTracks = async (spotifyApi, limit = 50) => {
     }
 };
 
-/**
- * Fetch audio features for an array of track IDs.
- * @param {SpotifyWebApi} spotifyApi The authenticated SpotifyWebApi instance.
- * @param {Array<string>} trackIds Array of Spotify track IDs (max 100 per request).
- * @returns {Promise<Array>} Array of audio feature objects.
- */
-const getAudioFeatures = async (spotifyApi, trackIds) => {
-    try {
-        if (trackIds.length === 0) return [];
 
-        const data = await spotifyApi.getAudioFeaturesForTracks(trackIds);
-        return data.body.audio_features.filter(af => af !== null);
-    } catch (error) {
-        console.error('Error fetching audio features:', error);
-        throw new Error('Failed to fetch audio features from Spotify');
-    }
-};
 
 /**
  * Creates grouped playlists on Spotify and adds tracks.
@@ -86,6 +70,5 @@ const createGroupedPlaylists = async (spotifyApi, categorizedPlaylists) => {
 
 module.exports = {
     getSavedTracks,
-    getAudioFeatures,
     createGroupedPlaylists
 };
