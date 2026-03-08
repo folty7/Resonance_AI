@@ -42,20 +42,39 @@ const createGroupedPlaylists = async (spotifyApi, categorizedPlaylists) => {
     try {
         const results = [];
 
+        // 1. Get the current user's ID
+        const meResponse = await spotifyApi.getMe();
+        const userId = meResponse.body.id;
+        const accessToken = spotifyApi.getAccessToken();
+
         // Iterate through each category
         for (const [playlistName, trackUris] of Object.entries(categorizedPlaylists)) {
             if (!trackUris || trackUris.length === 0) continue;
 
-            // Create the playlist
-            const playlistResponse = await spotifyApi.createPlaylist(playlistName, {
-                description: `Created by Smart Sort AI - Vibes: ${playlistName}`,
-                public: false
+            // 2. Create the playlist manually to avoid spotify-web-api-node deprecated /me/ route
+            const createRes = await fetch(`https://api.spotify.com/v1/users/${userId}/playlists`, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${accessToken}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    name: playlistName,
+                    description: `Created by Resonance AI - Vibes: ${playlistName}`,
+                    public: false
+                })
             });
 
-            const playlistId = playlistResponse.body.id;
-            const playlistUrl = playlistResponse.body.external_urls.spotify;
+            if (!createRes.ok) {
+                const errText = await createRes.text();
+                throw new Error(`Failed to create playlist: ${errText}`);
+            }
 
-            // Add tracks to the newly created playlist (max 100 per request, assuming < 100 for now)
+            const playlistData = await createRes.json();
+            const playlistId = playlistData.id;
+            const playlistUrl = playlistData.external_urls.spotify;
+
+            // 3. Add tracks to the newly created playlist
             await spotifyApi.addTracksToPlaylist(playlistId, trackUris);
 
             results.push({ name: playlistName, id: playlistId, url: playlistUrl });

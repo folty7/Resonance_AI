@@ -19,6 +19,7 @@ router.get('/tracks', async (req, res) => {
 router.post('/smart-sort', async (req, res) => {
     try {
         const api = req.spotifyApi;
+        const { customPrompt } = req.body;
 
         // 1. Fetch tracks 
         console.log("Fetching tracks from Spotify...");
@@ -30,7 +31,7 @@ router.post('/smart-sort', async (req, res) => {
 
         // 4. Send to Gemini using basic track names and artists
         console.log("Calling Gemini API...");
-        const categorizedUris = await aiService.generateSmartSort(rawTracks);
+        const categorizedUris = await aiService.generateSmartSort(rawTracks, customPrompt);
 
         // 5. Structure the final response for frontend rendering
         // Map the categorized URIs back to the raw track objects so the UI can display titles/artists

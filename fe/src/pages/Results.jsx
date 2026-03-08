@@ -6,7 +6,7 @@ import { ScrollArea } from "@/components/ui/scroll-area"
 
 export default function Results() {
     const navigate = useNavigate()
-    const { sortedPlaylists } = useStore()
+    const { sortedPlaylists, setSortedPlaylists } = useStore()
 
     const [exportingTo, setExportingTo] = useState(null)
     const [exportedCategories, setExportedCategories] = useState([])
@@ -18,6 +18,16 @@ export default function Results() {
                 {setTimeout(() => navigate('/dashboard'), 2000) && ""}
             </div>
         )
+    }
+
+    const handleLogout = async () => {
+        try {
+            await apiClient.post('/auth/logout')
+            setSortedPlaylists(null)
+            navigate('/')
+        } catch (error) {
+            console.error('Logout failed:', error)
+        }
     }
 
     const exportSinglePlaylist = async (categoryName, tracks) => {
@@ -52,13 +62,21 @@ export default function Results() {
                 <p className="text-blue-100/60 font-light max-w-md mx-auto">
                     Review the intelligent categorizations below. Export any playlist directly to your Spotify account.
                 </p>
-                <button
-                    className="mt-8 text-sm text-blue-400 hover:text-blue-300 transition-colors bg-white/5 px-4 py-1.5 rounded-full border border-white/10 flex items-center gap-2"
-                    onClick={() => navigate('/dashboard')}
-                >
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m15 18-6-6 6-6" /></svg>
-                    Back to Overview
-                </button>
+                <div className="mt-8 flex items-center justify-center gap-4">
+                    <button
+                        className="text-sm text-blue-400 hover:text-blue-300 transition-colors bg-white/5 px-4 py-1.5 rounded-full border border-white/10 flex items-center gap-2"
+                        onClick={() => navigate('/dashboard')}
+                    >
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m15 18-6-6 6-6" /></svg>
+                        Back to Overview
+                    </button>
+                    <button
+                        className="text-sm text-white/50 hover:text-white transition-colors px-4 py-1.5 rounded-full border border-transparent hover:bg-white/5 hover:border-white/10"
+                        onClick={handleLogout}
+                    >
+                        Logout
+                    </button>
+                </div>
             </header>
 
             <main className="z-10 relative grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto pb-20">
@@ -105,8 +123,8 @@ export default function Results() {
                                     onClick={() => exportSinglePlaylist(category, tracks)}
                                     disabled={isExporting || isExported}
                                     className={`w-full h-12 rounded-full font-medium tracking-wide transition-all duration-300 flex items-center justify-center gap-2 ${isExported
-                                            ? 'bg-white/10 text-white/50 border border-white/5 cursor-not-allowed'
-                                            : 'bg-blue-600 hover:bg-blue-500 text-white shadow-[0_4px_14px_rgba(37,99,235,0.3)] hover:shadow-[0_6px_20px_rgba(37,99,235,0.4)] border border-blue-400/20'
+                                        ? 'bg-white/10 text-white/50 border border-white/5 cursor-not-allowed'
+                                        : 'bg-blue-600 hover:bg-blue-500 text-white shadow-[0_4px_14px_rgba(37,99,235,0.3)] hover:shadow-[0_6px_20px_rgba(37,99,235,0.4)] border border-blue-400/20'
                                         }`}
                                 >
                                     {isExported && <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>}

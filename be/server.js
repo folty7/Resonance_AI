@@ -66,7 +66,8 @@ app.get('/auth/login', (req, res) => {
     // Requesting permissions
     const scopes = ['user-read-private', 'user-read-email', 'user-library-read', 'playlist-modify-public', 'playlist-modify-private'];
 
-    const authorizeURL = spotifyApi.createAuthorizeURL(scopes, state);
+    // Force the dialog to appear so Spotify explicitly grants the new playlist scopes instead of reusing the old session
+    const authorizeURL = spotifyApi.createAuthorizeURL(scopes, state, true);
     res.redirect(authorizeURL);
 });
 
@@ -118,6 +119,20 @@ app.get('/auth/callback', async (req, res) => {
 });
 
 // Mount protected API routes
+app.post('/auth/logout', (req, res) => {
+    res.clearCookie('access_token', {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax'
+    });
+    res.clearCookie('refresh_token', {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax'
+    });
+    res.json({ success: true, message: 'Logged out successfully' });
+});
+
 const apiRoutes = require('./routes/api');
 const { requireAuth } = require('./middleware/auth');
 app.use('/api', requireAuth, apiRoutes);

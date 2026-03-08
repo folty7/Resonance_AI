@@ -10,12 +10,23 @@ export default function Dashboard() {
 
     const [isProcessing, setIsProcessing] = useState(false)
     const [statusText, setStatusText] = useState("Awaiting Command")
+    const [customPrompt, setCustomPrompt] = useState("")
 
     useEffect(() => {
         apiClient.get('/tracks').catch(() => {
             navigate('/')
         })
     }, [navigate])
+
+    const handleLogout = async () => {
+        try {
+            await apiClient.post('/auth/logout')
+            setSortedPlaylists(null)
+            navigate('/')
+        } catch (error) {
+            console.error('Logout failed:', error)
+        }
+    }
 
     const handleSmartSort = async () => {
         setIsProcessing(true)
@@ -24,7 +35,7 @@ export default function Dashboard() {
         try {
             setTimeout(() => setStatusText("Neural Net categorizing vibes..."), 2000)
 
-            const response = await apiClient.post('/smart-sort')
+            const response = await apiClient.post('/smart-sort', { customPrompt })
 
             if (response.data.success) {
                 setStatusText("Sorting Complete.")
@@ -49,7 +60,13 @@ export default function Dashboard() {
                 <h1 className="text-xl font-medium tracking-wide text-white">
                     Overview
                 </h1>
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-4">
+                    <button
+                        onClick={handleLogout}
+                        className="text-sm font-medium text-white/50 hover:text-white transition-colors"
+                    >
+                        Logout
+                    </button>
                     <span className="flex h-8 w-8 items-center justify-center rounded-full glass-panel border-white/20">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white/70"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" /><circle cx="12" cy="7" r="4" /></svg>
                     </span>
@@ -64,12 +81,22 @@ export default function Dashboard() {
                     {/* Inner Top Soft Gradient */}
                     <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-blue-400/10 to-transparent opacity-50" />
 
-                    <div className="flex flex-col items-center text-center space-y-2 mb-10 z-10 w-full">
-                        <p className="text-sm font-medium text-blue-200/60 uppercase tracking-widest">Action Required</p>
-                        <h2 className="text-3xl font-semibold tracking-tight text-white mb-2">Automated Sort</h2>
+                    <div className="flex flex-col items-center text-center space-y-2 mb-8 z-10 w-full">
+                        <p className="text-sm font-medium text-blue-200/60 uppercase tracking-widest">Resonance AI</p>
+                        <h2 className="text-3xl font-semibold tracking-tight text-white mb-2">Configure Sort</h2>
                         <p className="text-[15px] font-light text-white/50 px-4">
-                            Activate the AI to group your recent tracks by mood, energy, and genre signature.
+                            Describe how you want your music organized. Leave blank for AI auto-pilot.
                         </p>
+
+                        <div className="w-full px-2 mt-6">
+                            <textarea
+                                value={customPrompt}
+                                onChange={(e) => setCustomPrompt(e.target.value)}
+                                placeholder="E.g. Most listened, New era, old era, American-UK rap..."
+                                className="w-full h-24 bg-white/5 border border-white/10 rounded-xl p-4 text-white placeholder-white/30 focus:outline-none focus:border-blue-500/50 focus:ring-1 focus:ring-blue-500/50 resize-none transition-all text-[15px]"
+                                disabled={isProcessing}
+                            />
+                        </div>
                     </div>
 
                     <div className={`relative flex items-center justify-center w-full transition-all duration-700 z-10 ${isProcessing ? 'h-32' : 'h-16'}`}>

@@ -28,8 +28,8 @@ export default function Login() {
                 </div>
 
                 <div className="space-y-3 mb-12 w-full">
-                    <h1 className="text-4xl font-semibold tracking-tight text-white">
-                        SmartSort
+                    <h1 className="text-4xl font-semibold tracking-tight text-white shadow-sm">
+                        Resonance AI
                     </h1>
                     <p className="text-[15px] font-light leading-relaxed text-blue-100/60 mt-4 px-2">
                         Organize your audio universe. Effortlessly categorize your library with pure intelligence.
