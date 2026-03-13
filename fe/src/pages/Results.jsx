@@ -34,7 +34,7 @@ export default function Results() {
         setExportingTo(categoryName)
         try {
             const payload = {
-                [categoryName]: tracks
+                [categoryName]: tracks.map(t => t.uri)
             }
 
             const response = await apiClient.post('/playlists', payload)

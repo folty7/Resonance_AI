@@ -66,8 +66,8 @@ app.get('/auth/login', (req, res) => {
     // Requesting permissions
     const scopes = ['user-read-private', 'user-read-email', 'user-library-read', 'playlist-modify-public', 'playlist-modify-private'];
 
-    // Force the dialog to appear so Spotify explicitly grants the new playlist scopes instead of reusing the old session
-    const authorizeURL = spotifyApi.createAuthorizeURL(scopes, state, true);
+    // Normal login flow without forcing consent dialog
+    const authorizeURL = spotifyApi.createAuthorizeURL(scopes, state);
     res.redirect(authorizeURL);
 });
 
