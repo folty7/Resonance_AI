@@ -47,9 +47,14 @@ const createGroupedPlaylists = async (spotifyApi, categorizedPlaylists) => {
         const userId = meResponse.body.id;
         const accessToken = spotifyApi.getAccessToken();
 
+        console.log(`[Spotify Debug] Fetching /users/${userId}/playlists`);
+        console.log(`[Spotify Debug] Token snippet: ${accessToken?.substring(0, 10)}... (Length: ${accessToken?.length})`);
+
         // Iterate through each category
         for (const [playlistName, trackUris] of Object.entries(categorizedPlaylists)) {
             if (!trackUris || trackUris.length === 0) continue;
+
+            console.log(`[Spotify Debug] Attempting to create playlist: "${playlistName}" for User: ${userId}`);
 
             // 2. Create the playlist manually to avoid spotify-web-api-node deprecated /me/ route
             const createRes = await fetch(`https://api.spotify.com/v1/users/${userId}/playlists`, {
@@ -61,7 +66,7 @@ const createGroupedPlaylists = async (spotifyApi, categorizedPlaylists) => {
                 body: JSON.stringify({
                     name: playlistName,
                     description: `Created by Resonance AI - Vibes: ${playlistName}`,
-                    public: false
+                    public: true
                 })
             });
 

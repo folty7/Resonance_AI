@@ -1,0 +1,23 @@
+# Ignore Node modules and logs
+node_modules
+npm-debug.log
+
+# Ignore environment variables
+.env
+.env.local
+.env.*.local
+
+# Build output
+dist
+dist-ssr
+
+# Ignore git and IDE files
+.git
+.gitignore
+.vscode
+.idea
+.DS_Store
+
+# Ignore Docker files
+Dockerfile
+.dockerignore
