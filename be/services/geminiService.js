@@ -1,6 +1,6 @@
 const { GoogleGenAI } = require('@google/genai');
 
-const MODEL = process.env.GEMINI_MODEL || 'gemini-2.5-flash';
+const MODEL = process.env.GEMINI_MODEL || 'gemini-2.5-flash-lite';
 
 let client = null;
 const getClient = () => {
@@ -91,9 +91,11 @@ ${JSON.stringify(trackSummaries, null, 2)}`;
 
     let parsed;
     try {
-        parsed = JSON.parse(response.text);
+        const raw = response.text;
+        parsed = typeof raw === 'string' ? JSON.parse(raw) : raw;
+        if (!parsed || typeof parsed !== 'object') throw new Error('not an object');
     } catch (err) {
-        console.error('Gemini returned non-JSON:', response.text);
+        console.error('Gemini parse failed. Raw response.text:', response.text);
         throw new Error('AI response could not be parsed');
     }
 
