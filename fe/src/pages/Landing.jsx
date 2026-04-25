@@ -5,119 +5,182 @@ const LAUNCH_URL = typeof window !== 'undefined'
     ? `http://${window.location.hostname}:8080/auth/login`
     : '#'
 
-function LyraLogo({ size = 48 }) {
+function LyraLogo({ size = 36 }) {
     return (
-        <div
-            className="relative flex items-center justify-center rounded-full bg-gradient-to-br from-blue-500 via-indigo-500 to-indigo-700 shadow-[0_4px_20px_rgba(59,130,246,0.4)] border border-white/20 shrink-0"
-            style={{ height: size, width: size }}
-        >
-            <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.75"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="text-white"
-                style={{ height: size * 0.55, width: size * 0.55 }}
-            >
-                <path d="M3 12c2 0 2-4 4-4s2 10 4 10 2-14 4-14 2 8 4 8h2" />
-            </svg>
+        <div className="relative shrink-0" style={{ width: size, height: size }}>
+            <div className="absolute inset-0 rounded-full bg-gradient-to-br from-orange-400 to-orange-700 shadow-[0_0_24px_rgba(249,115,22,0.45)]" />
+            <div className="absolute inset-[18%] rounded-full bg-black/45 backdrop-blur" />
+            <div className="absolute inset-[30%] rounded-full bg-gradient-to-br from-orange-300 to-orange-600" />
         </div>
+    )
+}
+
+function MiniGauge() {
+    const segments = [
+        { color: '#ea580c', from: 0, to: 0.2 },
+        { color: '#f59e0b', from: 0.2, to: 0.4 },
+        { color: '#fbbf24', from: 0.4, to: 0.6 },
+        { color: '#a78bfa', from: 0.6, to: 0.8 },
+        { color: '#22c55e', from: 0.8, to: 1 },
+    ]
+    const cx = 60, cy = 56, r = 42
+    const polar = (t) => {
+        const angle = Math.PI - t * Math.PI
+        return [cx + r * Math.cos(angle), cy - r * Math.sin(angle)]
+    }
+    const arc = (from, to) => {
+        const [x1, y1] = polar(from); const [x2, y2] = polar(to)
+        return `M ${x1} ${y1} A ${r} ${r} 0 0 1 ${x2} ${y2}`
+    }
+    const [mx, my] = polar(0.35)
+    return (
+        <svg viewBox="0 0 120 70" className="w-full">
+            {segments.map((s, i) => (
+                <path key={i} d={arc(s.from + 0.02, s.to - 0.02)} stroke={s.color} strokeWidth="9" strokeLinecap="round" fill="none" />
+            ))}
+            <circle cx={mx} cy={my} r="6" fill="white" />
+            <rect x={mx - 2.5} y={my - 2.5} width="5" height="5" rx="1" fill="#ea580c" />
+        </svg>
+    )
+}
+
+function MiniSparkline({ color = '#22c55e', up = true }) {
+    const data = up ? [4, 8, 6, 10, 8, 12, 11, 14] : [14, 11, 12, 8, 10, 6, 8, 4]
+    const w = 120, h = 32
+    const max = Math.max(...data), min = Math.min(...data), range = max - min || 1
+    const stepX = w / (data.length - 1)
+    const pts = data.map((v, i) => [i * stepX, h - ((v - min) / range) * (h - 6) - 3])
+    const path = pts.map(([x, y], i) => `${i === 0 ? 'M' : 'L'} ${x.toFixed(1)} ${y.toFixed(1)}`).join(' ')
+    return (
+        <svg viewBox={`0 0 ${w} ${h}`} className="w-full">
+            <path d={path} stroke={color} strokeWidth="1.5" fill="none" strokeLinecap="round" />
+        </svg>
     )
 }
 
 function LaptopMockup() {
     return (
-        <div className="relative mx-auto w-full max-w-4xl">
-            <div className="relative rounded-t-xl bg-gradient-to-b from-slate-800 to-slate-900 border border-white/10 border-b-0 p-3 shadow-2xl">
-                <div className="absolute top-2 left-1/2 -translate-x-1/2 h-1.5 w-16 rounded-full bg-slate-700" />
-                <div className="rounded-md bg-slate-950 overflow-hidden aspect-[16/10]">
-                    {/* Fake Dashboard */}
-                    <div className="relative h-full w-full p-6 bg-gradient-to-br from-slate-950 via-blue-950/30 to-slate-950 text-[10px]">
-                        <div className="absolute top-[-20%] right-[-10%] h-48 w-48 rounded-full bg-blue-500/20 blur-3xl" />
-                        <div className="absolute bottom-[-20%] left-[-10%] h-48 w-48 rounded-full bg-indigo-600/20 blur-3xl" />
+        <div className="relative mx-auto w-full max-w-5xl">
+            <div className="relative rounded-t-xl bg-gradient-to-b from-zinc-800 to-zinc-900 border border-white/10 border-b-0 p-3 shadow-[0_30px_80px_rgba(0,0,0,0.6)]">
+                <div className="absolute top-2 left-1/2 -translate-x-1/2 h-1.5 w-16 rounded-full bg-zinc-700" />
+                <div className="rounded-md overflow-hidden aspect-[16/10] bg-[#0a0604] relative">
+                    {/* warm glows */}
+                    <div className="absolute -top-[10%] -right-[5%] h-56 w-56 rounded-full bg-orange-500/30 blur-3xl pointer-events-none" />
+                    <div className="absolute bottom-0 left-[10%] h-40 w-40 rounded-full bg-amber-500/15 blur-3xl pointer-events-none" />
 
-                        <div className="relative flex items-center justify-between mb-5">
-                            <div className="flex items-center gap-1.5">
-                                <LyraLogo size={16} />
-                                <span className="text-white font-medium text-xs">Lyra</span>
+                    <div className="relative flex h-full text-[9px]">
+                        {/* Sidebar */}
+                        <div className="w-[18%] border-r border-white/[0.06] p-3 flex flex-col gap-1.5">
+                            <div className="flex items-center gap-1.5 mb-3">
+                                <LyraLogo size={14} />
+                                <span className="text-white font-semibold text-[10px]">Lyra</span>
                             </div>
-                            <span className="text-white/40">100 tracks loaded</span>
+                            <div className="bg-white/[0.06] border border-white/15 rounded-full px-2 py-1 text-white text-[8px]">Dashboard</div>
+                            <div className="text-white/50 px-2 py-1 text-[8px]">Library</div>
+                            <div className="text-white/50 px-2 py-1 text-[8px]">Analytics</div>
+                            <p className="mt-2 text-white/30 text-[7px] tracking-widest px-2">AI TOOLS</p>
+                            <div className="text-white/50 px-2 py-1 text-[8px]">AI Sort</div>
+                            <div className="text-white/50 px-2 py-1 text-[8px]">Discover</div>
                         </div>
-
-                        <div className="relative space-y-3">
-                            <div className="rounded-lg bg-white/5 border border-white/10 p-4 backdrop-blur-sm">
-                                <p className="text-white font-semibold text-xs mb-2">Sort with Gemini</p>
-                                <div className="flex flex-wrap gap-1 mb-3">
-                                    <span className="px-2 py-0.5 rounded-full bg-blue-500/20 border border-blue-400/50 text-white text-[8px]">Genre</span>
-                                    <span className="px-2 py-0.5 rounded-full bg-blue-500/20 border border-blue-400/50 text-white text-[8px]">Year</span>
-                                    <span className="px-2 py-0.5 rounded-full bg-white/5 border border-white/10 text-white/50 text-[8px]">Mood</span>
-                                    <span className="px-2 py-0.5 rounded-full bg-white/5 border border-white/10 text-white/50 text-[8px]">Artist</span>
-                                    <span className="px-2 py-0.5 rounded-full bg-white/5 border border-white/10 text-white/50 text-[8px]">Popularity</span>
-                                </div>
-                                <div className="h-5 rounded-full bg-indigo-600 text-white text-[8px] flex items-center justify-center font-medium">
-                                    Sort with AI
+                        {/* Main */}
+                        <div className="flex-1 p-3">
+                            <div className="flex items-center gap-2 mb-3">
+                                <div className="flex-1 h-5 rounded-full bg-white/[0.04] border border-white/[0.06]" />
+                                <div className="h-5 w-5 rounded-full bg-white/[0.04] border border-white/[0.06]" />
+                                <div className="h-5 px-2 rounded-full bg-white/[0.04] border border-white/[0.06] flex items-center gap-1">
+                                    <div className="h-3 w-3 rounded-full bg-gradient-to-br from-orange-400 to-orange-600" />
+                                    <span className="text-white/70 text-[7px]">Listener</span>
                                 </div>
                             </div>
-
-                            <div className="grid grid-cols-3 gap-2">
-                                {[
-                                    { n: "90s Indie Rock", c: 12 },
-                                    { n: "Chill 2020s", c: 18 },
-                                    { n: "Hype Pop", c: 9 }
-                                ].map((g, i) => (
-                                    <div key={i} className="rounded-md bg-white/5 border border-white/10 p-2">
-                                        <p className="text-white text-[9px] font-medium truncate">{g.n}</p>
-                                        <p className="text-white/40 text-[7px]">{g.c} tracks</p>
-                                        <div className="mt-1.5 h-3 rounded-full bg-green-600/80 text-white text-[7px] flex items-center justify-center">
-                                            Keep
-                                        </div>
+                            <div className="grid grid-cols-12 gap-2 mb-2">
+                                <div className="col-span-3 rounded-lg bg-white/[0.04] border border-white/[0.06] p-2">
+                                    <p className="text-white/50 text-[7px]">TOP</p>
+                                    <p className="text-white text-[9px] font-medium">Indie Pop</p>
+                                    <p className="text-white text-[12px] font-semibold mt-0.5">12</p>
+                                    <MiniSparkline color="#22c55e" up />
+                                </div>
+                                <div className="col-span-5 rounded-lg bg-white/[0.04] border border-white/[0.06] p-2">
+                                    <p className="text-white text-[14px] font-semibold leading-none">$380,005</p>
+                                    <p className="text-orange-400 text-[7px] mt-0.5">+5 (1.30)</p>
+                                    <div className="mt-1"><MiniGauge /></div>
+                                </div>
+                                <div className="col-span-4 rounded-lg bg-white/[0.04] border border-white/[0.06] p-2">
+                                    <p className="text-white/50 text-[7px]">ARTIST</p>
+                                    <p className="text-white text-[9px] font-medium">The Strokes</p>
+                                    <p className="text-white text-[12px] font-semibold mt-0.5">8</p>
+                                    <MiniSparkline color="#f43f5e" />
+                                </div>
+                            </div>
+                            <div className="grid grid-cols-12 gap-2">
+                                <div className="col-span-7 rounded-lg bg-white/[0.04] border border-white/[0.06] p-2">
+                                    <p className="text-white text-[8px] font-medium mb-1">Listening Activity</p>
+                                    <div className="flex gap-1 mb-1">
+                                        <span className="text-[6px] px-1.5 py-0.5 rounded-full bg-white/[0.08] text-white">Decades</span>
+                                        <span className="text-[6px] px-1.5 py-0.5 text-white/50">Genres</span>
                                     </div>
-                                ))}
+                                    <svg viewBox="0 0 200 50" className="w-full h-10">
+                                        <path d="M0 30 L25 22 L50 28 L75 16 L100 10 L125 18 L150 22 L175 14 L200 24" stroke="#ea580c" strokeWidth="1.5" fill="none" />
+                                        <path d="M0 38 L25 34 L50 32 L75 36 L100 30 L125 32 L150 38 L175 34 L200 36" stroke="#f59e0b" strokeWidth="1.5" fill="none" />
+                                        <path d="M0 42 L25 40 L50 44 L75 38 L100 42 L125 40 L150 44 L175 42 L200 40" stroke="#a78bfa" strokeWidth="1.5" fill="none" />
+                                    </svg>
+                                </div>
+                                <div className="col-span-5 rounded-lg bg-white/[0.04] border border-white/[0.06] p-2">
+                                    <p className="text-white text-[8px] font-medium mb-1.5">Saved Playlists</p>
+                                    {['Sunset Drive', 'Late Night', 'Throwback'].map((n, i) => {
+                                        const c = ['from-cyan-400 to-blue-500', 'from-yellow-400 to-orange-500', 'from-emerald-400 to-green-500'][i]
+                                        return (
+                                            <div key={i} className="flex items-center gap-1.5 mb-1">
+                                                <div className={`h-3 w-3 rounded-full bg-gradient-to-br ${c}`} />
+                                                <span className="text-white text-[7px] flex-1">{n}</span>
+                                                <span className="text-white/40 text-[6px]">14</span>
+                                            </div>
+                                        )
+                                    })}
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            {/* Laptop base */}
-            <div className="mx-auto h-3 bg-gradient-to-b from-slate-700 to-slate-800 border-x border-white/10 rounded-b-xl" style={{ width: '105%', marginLeft: '-2.5%' }} />
-            <div className="mx-auto h-1 bg-slate-900 rounded-b-2xl" style={{ width: '50%' }} />
+            <div className="mx-auto h-3 bg-gradient-to-b from-zinc-700 to-zinc-800 border-x border-white/10 rounded-b-xl" style={{ width: '105%', marginLeft: '-2.5%' }} />
+            <div className="mx-auto h-1 bg-zinc-900 rounded-b-2xl" style={{ width: '50%' }} />
         </div>
     )
 }
 
 function MobileMockup() {
     return (
-        <div className="relative mx-auto w-[240px] rounded-[2.5rem] bg-gradient-to-b from-slate-800 to-slate-900 border border-white/10 p-2 shadow-2xl">
+        <div className="relative mx-auto w-[240px] rounded-[2.5rem] bg-gradient-to-b from-zinc-800 to-zinc-900 border border-white/10 p-2 shadow-[0_20px_60px_rgba(0,0,0,0.6)]">
             <div className="absolute top-3 left-1/2 -translate-x-1/2 h-5 w-20 rounded-full bg-black z-10" />
-            <div className="rounded-[2rem] overflow-hidden aspect-[9/19] bg-slate-950">
-                <div className="relative h-full w-full p-4 bg-gradient-to-br from-slate-950 via-indigo-950/40 to-slate-950 text-[10px]">
-                    <div className="absolute top-[-20%] right-[-10%] h-40 w-40 rounded-full bg-indigo-600/25 blur-3xl" />
+            <div className="rounded-[2rem] overflow-hidden aspect-[9/19] bg-[#0a0604]">
+                <div className="relative h-full w-full p-4 text-[10px]">
+                    <div className="absolute -top-[10%] -right-[10%] h-40 w-40 rounded-full bg-orange-500/30 blur-3xl" />
+                    <div className="absolute bottom-[10%] -left-[10%] h-32 w-32 rounded-full bg-amber-500/15 blur-3xl" />
 
-                    <div className="relative pt-8 mb-3">
-                        <div className="flex items-center justify-between">
-                            <span className="text-white font-medium text-xs">Saved</span>
-                            <span className="text-white/40 text-[9px]">3</span>
-                        </div>
+                    <div className="relative pt-8 mb-3 flex items-center justify-between">
+                        <span className="text-white font-medium text-xs">Saved</span>
+                        <span className="text-white/40 text-[9px]">3</span>
                     </div>
 
                     <div className="relative space-y-2">
                         {[
-                            { n: "Sunset Drive", d: "Golden-hour indie & chill", c: 14 },
-                            { n: "Late Night Studio", d: "Lo-fi & ambient", c: 22 },
-                            { n: "Throwback 2000s", d: "Pop anthems", c: 17 }
+                            { n: "Sunset Drive", d: "Golden-hour indie", c: 14, color: 'from-cyan-400 to-blue-500' },
+                            { n: "Late Night Studio", d: "Lo-fi & ambient", c: 22, color: 'from-yellow-400 to-orange-500' },
+                            { n: "Throwback 2000s", d: "Pop anthems", c: 17, color: 'from-emerald-400 to-green-500' }
                         ].map((p, i) => (
-                            <div key={i} className="rounded-lg bg-white/5 border border-white/10 p-2.5">
-                                <p className="text-white text-[10px] font-medium">{p.n}</p>
-                                <p className="text-white/50 text-[8px] mt-0.5">{p.d}</p>
-                                <p className="text-white/30 text-[7px] mt-1">{p.c} tracks</p>
-                                <div className="flex gap-1 mt-2">
-                                    <div className="flex-1 h-4 rounded-full bg-green-600/90 text-white text-[7px] flex items-center justify-center">
-                                        Add to Spotify
+                            <div key={i} className="rounded-2xl bg-white/[0.04] border border-white/[0.06] p-2.5">
+                                <div className="flex items-center gap-2 mb-2">
+                                    <div className={`h-7 w-7 rounded-full bg-gradient-to-br ${p.color} shrink-0`} />
+                                    <div className="min-w-0">
+                                        <p className="text-white text-[10px] font-medium truncate">{p.n}</p>
+                                        <p className="text-white/50 text-[8px]">{p.d}</p>
                                     </div>
-                                    <div className="flex-1 h-4 rounded-full bg-white/5 border border-white/10 text-white/70 text-[7px] flex items-center justify-center">
+                                </div>
+                                <div className="flex gap-1">
+                                    <div className="flex-1 h-5 rounded-full bg-orange-500/90 text-white text-[7px] flex items-center justify-center font-medium">
+                                        Push
+                                    </div>
+                                    <div className="flex-1 h-5 rounded-full bg-white/[0.05] border border-white/10 text-white/70 text-[7px] flex items-center justify-center">
                                         Remove
                                     </div>
                                 </div>
@@ -130,28 +193,33 @@ function MobileMockup() {
     )
 }
 
-function TabletMockup() {
+function HeroPanelMockup() {
     return (
-        <div className="relative mx-auto w-full max-w-sm rounded-[1.75rem] bg-gradient-to-b from-slate-800 to-slate-900 border border-white/10 p-2.5 shadow-2xl">
-            <div className="rounded-[1.25rem] overflow-hidden aspect-[4/5] bg-slate-950">
-                <div className="relative h-full w-full p-6 bg-gradient-to-br from-slate-950 via-blue-950/40 to-slate-950 flex flex-col items-center justify-center text-center">
-                    <div className="absolute top-[-20%] left-[-10%] h-60 w-60 rounded-full bg-blue-600/25 blur-3xl" />
-                    <div className="absolute bottom-[-20%] right-[-10%] h-52 w-52 rounded-full bg-indigo-500/20 blur-3xl" />
+        <div className="relative mx-auto w-full max-w-md rounded-[1.75rem] bg-gradient-to-b from-zinc-800 to-zinc-900 border border-white/10 p-2.5 shadow-[0_30px_80px_rgba(0,0,0,0.6)]">
+            <div className="rounded-[1.25rem] overflow-hidden aspect-[4/5] bg-[#0a0604]">
+                <div className="relative h-full w-full p-6 flex flex-col items-center justify-center text-center">
+                    <div className="absolute -top-[10%] -right-[10%] h-60 w-60 rounded-full bg-orange-500/35 blur-3xl" />
+                    <div className="absolute -bottom-[10%] -left-[10%] h-52 w-52 rounded-full bg-amber-500/20 blur-3xl" />
 
                     <div className="relative">
-                        <LyraLogo size={56} />
+                        <LyraLogo size={64} />
                     </div>
-                    <h3 className="relative text-white text-3xl font-semibold tracking-tight mt-5 bg-gradient-to-b from-white to-blue-200/80 bg-clip-text text-transparent">
+                    <h3 className="relative text-white text-3xl font-semibold tracking-tight mt-5 bg-gradient-to-b from-white to-orange-200/80 bg-clip-text text-transparent">
                         Lyra
                     </h3>
-                    <p className="relative text-[10px] text-white/60 mt-2 px-4">
+                    <p className="relative text-[11px] text-white/60 mt-2 px-4">
                         AI-curated playlists from your saved library.
                     </p>
-                    <div className="relative mt-6 h-8 w-40 rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white text-[10px] font-medium flex items-center justify-center gap-1.5 border border-blue-400/30 shadow-lg">
-                        <svg viewBox="0 0 24 24" fill="currentColor" className="h-3 w-3">
+                    <div className="relative mt-6 h-9 w-44 rounded-full bg-gradient-to-r from-orange-500 to-orange-600 text-white text-[11px] font-medium flex items-center justify-center gap-1.5 shadow-[0_8px_20px_rgba(249,115,22,0.4)]">
+                        <svg viewBox="0 0 24 24" fill="currentColor" className="h-3.5 w-3.5">
                             <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.59 14.41c-.19.3-.58.39-.88.2-2.41-1.47-5.44-1.8-9.01-.99-.34.08-.68-.14-.76-.48-.08-.34.14-.68.48-.76 3.91-.89 7.27-.51 9.96 1.14.3.19.39.58.21.89z" />
                         </svg>
                         Connect with Spotify
+                    </div>
+
+                    {/* mini gauge inset */}
+                    <div className="relative mt-6 w-32 opacity-90">
+                        <MiniGauge />
                     </div>
                 </div>
             </div>
@@ -174,14 +242,16 @@ const STEPS = [
     { n: "03", title: "Push", body: "Keep the playlists you like and publish them to Spotify in one tap." }
 ]
 
+const cardClass = "rounded-2xl bg-gradient-to-b from-white/[0.05] to-white/[0.02] border border-white/[0.07] hover:border-orange-400/30 transition-colors"
+
 export default function Landing() {
     return (
-        <div className="relative flex min-h-screen w-full flex-col bg-background font-sans text-foreground overflow-hidden">
+        <div className="relative flex min-h-screen w-full flex-col bg-[#0a0604] font-sans text-white overflow-hidden">
 
-            {/* Ambient Background */}
-            <div className="absolute top-[-5%] right-[-5%] h-[700px] w-[700px] rounded-full bg-blue-600/15 blur-[140px] pointer-events-none" />
-            <div className="absolute top-[50%] left-[-15%] h-[600px] w-[600px] rounded-full bg-indigo-600/15 blur-[140px] pointer-events-none" />
-            <div className="absolute bottom-[0%] right-[10%] h-[500px] w-[500px] rounded-full bg-purple-500/10 blur-[130px] pointer-events-none" />
+            {/* Ambient warm glows */}
+            <div className="pointer-events-none absolute -top-[10%] -right-[10%] h-[800px] w-[800px] rounded-full bg-orange-600/30 blur-[160px]" />
+            <div className="pointer-events-none absolute top-[35%] -left-[15%] h-[600px] w-[600px] rounded-full bg-orange-500/15 blur-[160px]" />
+            <div className="pointer-events-none absolute bottom-[5%] right-[10%] h-[500px] w-[500px] rounded-full bg-amber-500/15 blur-[140px]" />
 
             {/* Nav */}
             <header className="relative z-20 flex items-center justify-between px-6 sm:px-10 py-5 w-full max-w-7xl mx-auto">
@@ -196,9 +266,7 @@ export default function Landing() {
                     <a href="#contact" className="hover:text-white transition-colors">Contact</a>
                 </nav>
                 <a href={LAUNCH_URL}>
-                    <Button
-                        className="h-10 rounded-full bg-white/10 hover:bg-white/20 border border-white/15 text-white text-[13px] font-medium px-5 backdrop-blur-md"
-                    >
+                    <Button className="h-10 rounded-full bg-white/[0.06] hover:bg-white/[0.1] border border-white/[0.08] text-white text-[13px] font-medium px-5">
                         Launch app
                     </Button>
                 </a>
@@ -208,14 +276,14 @@ export default function Landing() {
             <section className="relative z-10 w-full max-w-7xl mx-auto px-6 sm:px-10 pt-12 sm:pt-20 pb-24">
                 <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
                     <div className="flex flex-col">
-                        <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-[11px] text-white/60 w-fit mb-6 backdrop-blur-md">
-                            <span className="h-1.5 w-1.5 rounded-full bg-green-400 animate-pulse" />
+                        <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.04] border border-white/[0.08] text-[11px] text-white/60 w-fit mb-6 backdrop-blur-md">
+                            <span className="h-1.5 w-1.5 rounded-full bg-orange-400 animate-pulse" />
                             AI-powered · Powered by Gemini
                         </span>
 
                         <h1 className="text-5xl sm:text-6xl lg:text-7xl font-semibold tracking-tight text-white leading-[1.05] mb-6">
                             Your library,<br />
-                            <span className="bg-gradient-to-r from-blue-300 via-indigo-300 to-purple-300 bg-clip-text text-transparent">
+                            <span className="bg-gradient-to-r from-orange-300 via-amber-300 to-orange-400 bg-clip-text text-transparent">
                                 intelligently sorted.
                             </span>
                         </h1>
@@ -229,7 +297,7 @@ export default function Landing() {
                             <a href={LAUNCH_URL}>
                                 <Button
                                     size="lg"
-                                    className="h-13 px-8 rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 border border-blue-400/30 text-white shadow-[0_8px_24px_rgba(59,130,246,0.35)] font-medium text-[15px] flex items-center gap-2.5"
+                                    className="h-13 px-8 rounded-full bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-400 hover:to-orange-500 border-0 text-white shadow-[0_8px_24px_rgba(249,115,22,0.4)] font-medium text-[15px] flex items-center gap-2.5"
                                 >
                                     <svg viewBox="0 0 24 24" fill="currentColor" className="h-5 w-5">
                                         <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.59 14.41c-.19.3-.58.39-.88.2-2.41-1.47-5.44-1.8-9.01-.99-.34.08-.68-.14-.76-.48-.08-.34.14-.68.48-.76 3.91-.89 7.27-.51 9.96 1.14.3.19.39.58.21.89zm1.22-2.72c-.24.37-.74.49-1.11.25-2.75-1.69-6.94-2.18-10.2-1.19-.42.13-.87-.11-1-.53-.13-.42.11-.87.53-1 3.72-1.13 8.34-.59 11.51 1.36.37.24.49.74.27 1.11zm.11-2.84C14.73 8.87 9.5 8.7 6.3 9.67c-.5.15-1.03-.13-1.18-.63-.15-.5.13-1.03.63-1.18 3.67-1.11 9.44-.91 13.16 1.29.46.27.61.86.34 1.31-.27.46-.86.61-1.32.34z" />
@@ -240,7 +308,7 @@ export default function Landing() {
                             <a href="#features">
                                 <Button
                                     size="lg"
-                                    className="h-13 px-8 rounded-full bg-white/5 hover:bg-white/10 border border-white/15 text-white font-medium text-[15px] backdrop-blur-md"
+                                    className="h-13 px-8 rounded-full bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.08] text-white font-medium text-[15px]"
                                 >
                                     See how it works
                                 </Button>
@@ -255,7 +323,7 @@ export default function Landing() {
                     </div>
 
                     <div className="flex items-center justify-center">
-                        <TabletMockup />
+                        <HeroPanelMockup />
                     </div>
                 </div>
             </section>
@@ -271,10 +339,7 @@ export default function Landing() {
 
                 <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
                     {FEATURES.map((f, i) => (
-                        <div
-                            key={i}
-                            className="glass-panel-heavy rounded-2xl p-6 hover:border-white/25 transition-colors"
-                        >
+                        <div key={i} className={`${cardClass} p-6`}>
                             <div className="text-3xl mb-3">{f.icon}</div>
                             <h3 className="text-white font-medium text-lg mb-2">{f.title}</h3>
                             <p className="text-white/55 text-[14px] leading-relaxed">{f.body}</p>
@@ -283,12 +348,12 @@ export default function Landing() {
                 </div>
             </section>
 
-            {/* Screenshots / Product Showcase */}
+            {/* Showcase */}
             <section className="relative z-10 w-full max-w-7xl mx-auto px-6 sm:px-10 py-24">
                 <div className="text-center mb-16">
                     <h2 className="text-4xl sm:text-5xl font-semibold tracking-tight text-white mb-4">See it in action</h2>
                     <p className="text-white/50 max-w-xl mx-auto text-[15px]">
-                        Built mobile-first, works everywhere.
+                        A warm, focused dashboard built mobile-first.
                     </p>
                 </div>
 
@@ -335,8 +400,8 @@ export default function Landing() {
 
                 <div className="grid md:grid-cols-3 gap-4 relative">
                     {STEPS.map((s, i) => (
-                        <div key={i} className="glass-panel-heavy rounded-2xl p-8 relative">
-                            <span className="text-6xl font-semibold bg-gradient-to-b from-blue-300 to-indigo-500 bg-clip-text text-transparent block mb-4">
+                        <div key={i} className={`${cardClass} p-8 relative`}>
+                            <span className="text-6xl font-semibold bg-gradient-to-b from-orange-300 to-orange-600 bg-clip-text text-transparent block mb-4">
                                 {s.n}
                             </span>
                             <h3 className="text-white text-xl font-medium mb-2">{s.title}</h3>
@@ -346,10 +411,10 @@ export default function Landing() {
                 </div>
             </section>
 
-            {/* Setup / Self-host */}
+            {/* Setup */}
             <section id="setup" className="relative z-10 w-full max-w-4xl mx-auto px-6 sm:px-10 py-24">
-                <div className="glass-panel-heavy rounded-3xl p-8 sm:p-12">
-                    <span className="inline-block px-3 py-1 rounded-full bg-purple-500/20 border border-purple-400/30 text-purple-200 text-[11px] mb-4">
+                <div className="rounded-3xl bg-gradient-to-b from-white/[0.05] to-white/[0.02] border border-white/[0.07] p-8 sm:p-12">
+                    <span className="inline-block px-3 py-1 rounded-full bg-orange-500/15 border border-orange-400/30 text-orange-200 text-[11px] mb-4">
                         Coming soon — self-hosted option
                     </span>
                     <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight text-white mb-4">Bring your own keys</h2>
@@ -359,43 +424,26 @@ export default function Landing() {
                     </p>
 
                     <div className="space-y-4">
-                        <div className="rounded-xl bg-black/30 border border-white/10 p-5">
-                            <div className="flex items-center gap-2 mb-2">
-                                <span className="h-6 w-6 rounded-full bg-green-600 text-white text-xs flex items-center justify-center font-medium">1</span>
-                                <h4 className="text-white font-medium text-[15px]">Create a Spotify Developer app</h4>
-                            </div>
-                            <p className="text-white/55 text-[13px] ml-8">
-                                Visit <span className="text-blue-300">developer.spotify.com/dashboard</span>, create
-                                an app, and copy the Client ID + Secret. Set the redirect URI to your deployment URL.
-                            </p>
-                        </div>
-
-                        <div className="rounded-xl bg-black/30 border border-white/10 p-5">
-                            <div className="flex items-center gap-2 mb-2">
-                                <span className="h-6 w-6 rounded-full bg-green-600 text-white text-xs flex items-center justify-center font-medium">2</span>
-                                <h4 className="text-white font-medium text-[15px]">Grab a Gemini API key</h4>
-                            </div>
-                            <p className="text-white/55 text-[13px] ml-8">
-                                Generate one at <span className="text-blue-300">aistudio.google.com/apikey</span>.
-                                The free tier is plenty for personal use.
-                            </p>
-                        </div>
-
-                        <div className="rounded-xl bg-black/30 border border-white/10 p-5">
-                            <div className="flex items-center gap-2 mb-2">
-                                <span className="h-6 w-6 rounded-full bg-green-600 text-white text-xs flex items-center justify-center font-medium">3</span>
-                                <h4 className="text-white font-medium text-[15px]">Paste into Lyra settings</h4>
-                            </div>
-                            <p className="text-white/55 text-[13px] ml-8 mb-3">
-                                In the self-hosted version, you'll open <span className="text-white/75 bg-white/10 px-1.5 py-0.5 rounded">Settings → API Keys</span> and
-                                paste all three values. Lyra encrypts them locally in your browser storage.
-                            </p>
-                            <pre className="ml-8 text-[11px] bg-black/60 border border-white/5 rounded-lg p-3 text-white/70 overflow-x-auto">
+                        {[
+                            { n: 1, t: "Create a Spotify Developer app", b: <>Visit <span className="text-orange-300">developer.spotify.com/dashboard</span>, create an app, and copy the Client ID + Secret. Set the redirect URI to your deployment URL.</> },
+                            { n: 2, t: "Grab a Gemini API key", b: <>Generate one at <span className="text-orange-300">aistudio.google.com/apikey</span>. The free tier is plenty for personal use.</> },
+                            { n: 3, t: "Paste into Lyra settings", b: <>In the self-hosted version, you'll open <span className="text-white/75 bg-white/[0.06] px-1.5 py-0.5 rounded">Settings → API Keys</span> and paste all three values. Lyra encrypts them locally in your browser storage.</> }
+                        ].map((step) => (
+                            <div key={step.n} className="rounded-2xl bg-black/30 border border-white/[0.06] p-5">
+                                <div className="flex items-center gap-2 mb-2">
+                                    <span className="h-6 w-6 rounded-full bg-gradient-to-br from-orange-400 to-orange-600 text-white text-xs flex items-center justify-center font-medium">{step.n}</span>
+                                    <h4 className="text-white font-medium text-[15px]">{step.t}</h4>
+                                </div>
+                                <p className="text-white/55 text-[13px] ml-8">{step.b}</p>
+                                {step.n === 3 && (
+                                    <pre className="ml-8 mt-3 text-[11px] bg-black/60 border border-white/5 rounded-lg p-3 text-white/70 overflow-x-auto">
 {`SPOTIFY_CLIENT_ID=•••••
 SPOTIFY_CLIENT_SECRET=•••••
 GEMINI_API_KEY=•••••`}
-                            </pre>
-                        </div>
+                                    </pre>
+                                )}
+                            </div>
+                        ))}
                     </div>
                 </div>
             </section>
@@ -412,14 +460,14 @@ GEMINI_API_KEY=•••••`}
                 <div className="grid md:grid-cols-2 gap-4">
                     <a
                         href="mailto:foland717@gmail.com"
-                        className="glass-panel-heavy rounded-2xl p-6 flex items-start gap-4 hover:border-white/25 transition-colors group"
+                        className={`${cardClass} p-6 flex items-start gap-4 group`}
                     >
-                        <div className="h-11 w-11 rounded-xl bg-blue-500/20 border border-blue-400/30 flex items-center justify-center shrink-0 text-xl">
+                        <div className="h-11 w-11 rounded-xl bg-orange-500/15 border border-orange-400/30 flex items-center justify-center shrink-0 text-xl">
                             ✉️
                         </div>
                         <div>
                             <h3 className="text-white font-medium text-[15px] mb-1">Email</h3>
-                            <p className="text-white/60 text-[13px] group-hover:text-blue-300 transition-colors">
+                            <p className="text-white/60 text-[13px] group-hover:text-orange-300 transition-colors">
                                 foland717@gmail.com
                             </p>
                         </div>
@@ -429,14 +477,14 @@ GEMINI_API_KEY=•••••`}
                         href="https://github.com/folty7/Resonance_AI"
                         target="_blank"
                         rel="noreferrer"
-                        className="glass-panel-heavy rounded-2xl p-6 flex items-start gap-4 hover:border-white/25 transition-colors group"
+                        className={`${cardClass} p-6 flex items-start gap-4 group`}
                     >
-                        <div className="h-11 w-11 rounded-xl bg-white/10 border border-white/20 flex items-center justify-center shrink-0 text-xl">
+                        <div className="h-11 w-11 rounded-xl bg-white/[0.06] border border-white/[0.1] flex items-center justify-center shrink-0 text-xl">
                             🐙
                         </div>
                         <div>
                             <h3 className="text-white font-medium text-[15px] mb-1">GitHub</h3>
-                            <p className="text-white/60 text-[13px] group-hover:text-blue-300 transition-colors">
+                            <p className="text-white/60 text-[13px] group-hover:text-orange-300 transition-colors">
                                 folty7/Resonance_AI
                             </p>
                         </div>
@@ -447,7 +495,7 @@ GEMINI_API_KEY=•••••`}
                     action="mailto:foland717@gmail.com"
                     method="post"
                     encType="text/plain"
-                    className="glass-panel-heavy rounded-2xl p-6 sm:p-8 mt-4"
+                    className={`${cardClass} p-6 sm:p-8 mt-4`}
                 >
                     <h3 className="text-white font-medium text-lg mb-5">Or drop a quick message</h3>
                     <div className="grid sm:grid-cols-2 gap-3 mb-3">
@@ -456,14 +504,14 @@ GEMINI_API_KEY=•••••`}
                             type="text"
                             required
                             placeholder="Your name"
-                            className="h-11 bg-white/5 border border-white/10 rounded-xl px-4 text-white placeholder-white/30 focus:outline-none focus:border-blue-500/50 focus:ring-1 focus:ring-blue-500/50 text-[14px]"
+                            className="h-11 bg-white/[0.04] border border-white/[0.08] rounded-full px-4 text-white placeholder-white/30 focus:outline-none focus:border-orange-500/40 focus:ring-1 focus:ring-orange-500/30 text-[14px]"
                         />
                         <input
                             name="email"
                             type="email"
                             required
                             placeholder="your@email.com"
-                            className="h-11 bg-white/5 border border-white/10 rounded-xl px-4 text-white placeholder-white/30 focus:outline-none focus:border-blue-500/50 focus:ring-1 focus:ring-blue-500/50 text-[14px]"
+                            className="h-11 bg-white/[0.04] border border-white/[0.08] rounded-full px-4 text-white placeholder-white/30 focus:outline-none focus:border-orange-500/40 focus:ring-1 focus:ring-orange-500/30 text-[14px]"
                         />
                     </div>
                     <textarea
@@ -471,11 +519,11 @@ GEMINI_API_KEY=•••••`}
                         required
                         rows={4}
                         placeholder="What's on your mind?"
-                        className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-white/30 focus:outline-none focus:border-blue-500/50 focus:ring-1 focus:ring-blue-500/50 text-[14px] resize-none mb-4"
+                        className="w-full bg-white/[0.04] border border-white/[0.08] rounded-2xl px-4 py-3 text-white placeholder-white/30 focus:outline-none focus:border-orange-500/40 focus:ring-1 focus:ring-orange-500/30 text-[14px] resize-none mb-4"
                     />
                     <Button
                         type="submit"
-                        className="h-11 rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 border border-blue-400/30 text-white font-medium text-[14px] px-6"
+                        className="h-11 rounded-full bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-400 hover:to-orange-500 border-0 text-white font-medium text-[14px] px-6"
                     >
                         Send message
                     </Button>
@@ -484,8 +532,8 @@ GEMINI_API_KEY=•••••`}
 
             {/* Final CTA */}
             <section className="relative z-10 w-full max-w-4xl mx-auto px-6 sm:px-10 py-24">
-                <div className="glass-panel-heavy rounded-3xl p-10 sm:p-16 text-center relative overflow-hidden">
-                    <div className="absolute top-0 left-1/2 -translate-x-1/2 h-40 w-full bg-gradient-to-b from-blue-400/20 to-transparent pointer-events-none" />
+                <div className="rounded-3xl bg-gradient-to-b from-white/[0.06] to-white/[0.02] border border-white/[0.08] p-10 sm:p-16 text-center relative overflow-hidden">
+                    <div className="absolute -top-20 left-1/2 -translate-x-1/2 h-60 w-[80%] bg-orange-500/30 blur-3xl pointer-events-none" />
 
                     <div className="relative flex justify-center mb-6">
                         <LyraLogo size={64} />
@@ -499,7 +547,7 @@ GEMINI_API_KEY=•••••`}
                     <a href={LAUNCH_URL} className="relative inline-block">
                         <Button
                             size="lg"
-                            className="h-13 px-8 rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 border border-blue-400/30 text-white shadow-[0_8px_24px_rgba(59,130,246,0.35)] font-medium text-[15px] flex items-center gap-2.5"
+                            className="h-13 px-8 rounded-full bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-400 hover:to-orange-500 border-0 text-white shadow-[0_8px_24px_rgba(249,115,22,0.4)] font-medium text-[15px] flex items-center gap-2.5"
                         >
                             <svg viewBox="0 0 24 24" fill="currentColor" className="h-5 w-5">
                                 <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.59 14.41c-.19.3-.58.39-.88.2-2.41-1.47-5.44-1.8-9.01-.99-.34.08-.68-.14-.76-.48-.08-.34.14-.68.48-.76 3.91-.89 7.27-.51 9.96 1.14.3.19.39.58.21.89z" />
@@ -511,7 +559,7 @@ GEMINI_API_KEY=•••••`}
             </section>
 
             {/* Footer */}
-            <footer className="relative z-10 w-full max-w-7xl mx-auto px-6 sm:px-10 py-10 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <footer className="relative z-10 w-full max-w-7xl mx-auto px-6 sm:px-10 py-10 border-t border-white/[0.06] flex flex-col sm:flex-row items-center justify-between gap-4">
                 <div className="flex items-center gap-2">
                     <LyraLogo size={24} />
                     <span className="text-white/60 text-[13px]">© 2026 Lyra. All rights reserved.</span>
