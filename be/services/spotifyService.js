@@ -1,31 +1,40 @@
 // Service for handling Spotify API interactions
 
 /**
- * Fetch up to `limit` recently saved tracks (max 50 per Spotify page).
+ * Fetch up to `limit` recently saved tracks (Spotify caps each page at 50).
+ * Defaults to 1000; clamped to a max of 5000 to keep the response sane.
  */
-const getSavedTracks = async (spotifyApi, limit = 100) => {
+const getSavedTracks = async (spotifyApi, limit = 1000) => {
     try {
+        const cap = Math.min(Math.max(parseInt(limit, 10) || 1000, 1), 5000);
         let allItems = [];
-        for (let offset = 0; offset < limit; offset += 50) {
-            const currentLimit = Math.min(50, limit - offset);
+        for (let offset = 0; offset < cap; offset += 50) {
+            const currentLimit = Math.min(50, cap - offset);
             const data = await spotifyApi.getMySavedTracks({ limit: currentLimit, offset });
-            allItems = allItems.concat(data.body.items);
-            if (data.body.items.length < currentLimit) break;
+            const items = data.body.items || [];
+            allItems = allItems.concat(items);
+            if (items.length < currentLimit) break;
         }
 
         return allItems
             .filter(item => item.track)
             .map(item => {
-                const year = (item.track.album?.release_date || '').slice(0, 4) || null;
+                const t = item.track;
+                const year = (t.album?.release_date || '').slice(0, 4) || null;
+                const images = t.album?.images || [];
                 return {
-                    id: item.track.id,
-                    name: item.track.name,
-                    artists: item.track.artists.map(a => a.name).join(', '),
-                    artistIds: item.track.artists.map(a => a.id).filter(Boolean),
-                    album: item.track.album?.name,
+                    id: t.id,
+                    name: t.name,
+                    artists: t.artists.map(a => a.name).join(', '),
+                    artistIds: t.artists.map(a => a.id).filter(Boolean),
+                    album: t.album?.name,
+                    albumImage: images[1]?.url || images[0]?.url || images[2]?.url || null,
+                    albumImageSmall: images[2]?.url || images[1]?.url || images[0]?.url || null,
                     year: year ? parseInt(year, 10) : null,
-                    popularity: item.track.popularity,
-                    uri: item.track.uri
+                    popularity: t.popularity,
+                    durationMs: t.duration_ms,
+                    addedAt: item.added_at,
+                    uri: t.uri
                 };
             });
     } catch (error) {

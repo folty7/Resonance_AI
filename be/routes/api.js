@@ -4,10 +4,11 @@ const spotifyService = require('../services/spotifyService');
 const geminiService = require('../services/geminiService');
 
 // @route   GET /api/tracks
-// @desc    Fetch up to 100 saved tracks, enriched with genres + release year.
+// @desc    Fetch saved tracks (default 1000, capped at 5000 server-side),
+//          enriched with genres + album art.
 router.get('/tracks', async (req, res) => {
     try {
-        const limit = Math.min(parseInt(req.query.limit, 10) || 100, 100);
+        const limit = parseInt(req.query.limit, 10) || 1000;
         const tracks = await spotifyService.getSavedTracks(req.spotifyApi, limit);
         const enriched = await spotifyService.enrichTracksWithGenres(req.spotifyApi, tracks);
         res.json({ success: true, count: enriched.length, data: enriched });
@@ -24,10 +25,13 @@ router.get('/sort/parameters', (_req, res) => {
 });
 
 // @route   POST /api/sort
-// @desc    Group the supplied tracks into playlists via Gemini.
+// @desc    Group the supplied tracks into playlists via Gemini. Honors the
+//          x-gemini-api-key header when present (per-user key from Settings),
+//          otherwise falls back to the server-configured key.
 router.post('/sort', async (req, res) => {
     try {
         const { tracks, parameters, extra } = req.body;
+        const userApiKey = req.header('x-gemini-api-key') || null;
 
         if (!Array.isArray(tracks) || tracks.length === 0) {
             return res.status(400).json({ error: 'tracks array is required' });
@@ -36,7 +40,7 @@ router.post('/sort', async (req, res) => {
             return res.status(400).json({ error: 'parameters must be a non-empty array (e.g. ["genre", "year"])' });
         }
 
-        const groups = await geminiService.groupTracksByParameters(tracks, parameters, extra);
+        const groups = await geminiService.groupTracksByParameters(tracks, parameters, extra, userApiKey);
         res.json({ success: true, groups });
     } catch (error) {
         console.error('Sort error:', error);

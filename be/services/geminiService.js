@@ -2,15 +2,18 @@ const { GoogleGenAI } = require('@google/genai');
 
 const MODEL = process.env.GEMINI_MODEL || 'gemini-2.5-flash-lite';
 
-let client = null;
-const getClient = () => {
+let serverClient = null;
+const getClient = (overrideKey) => {
+    if (overrideKey && typeof overrideKey === 'string' && overrideKey.trim()) {
+        return new GoogleGenAI({ apiKey: overrideKey.trim() });
+    }
     if (!process.env.GEMINI_API_KEY) {
-        throw new Error('GEMINI_API_KEY is not configured on the server');
+        throw new Error('No Gemini API key. Add your own in Settings, or configure GEMINI_API_KEY on the server.');
     }
-    if (!client) {
-        client = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+    if (!serverClient) {
+        serverClient = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
     }
-    return client;
+    return serverClient;
 };
 
 const PARAMETER_HINTS = {
@@ -29,8 +32,8 @@ const PARAMETER_HINTS = {
  * @param {string[]} parameters One or more keys from PARAMETER_HINTS.
  * @param {string} [extra] Optional free-text user guidance.
  */
-const groupTracksByParameters = async (tracks, parameters, extra = '') => {
-    const ai = getClient();
+const groupTracksByParameters = async (tracks, parameters, extra = '', apiKey = null) => {
+    const ai = getClient(apiKey);
 
     const usedParams = (parameters || []).filter(p => PARAMETER_HINTS[p]);
     if (usedParams.length === 0) {
