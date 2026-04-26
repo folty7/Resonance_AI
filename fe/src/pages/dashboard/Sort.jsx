@@ -41,7 +41,15 @@ export default function Sort() {
 
     const toggleParam = (p) => setSelectedParams(prev => {
         const next = new Set(prev)
-        next.has(p) ? next.delete(p) : next.add(p)
+        if (next.has(p)) {
+            next.delete(p)
+        } else {
+            if (next.size < 2) {
+                next.add(p)
+            } else {
+                flashToast("You can only select up to 2 parameters")
+            }
+        }
         return next
     })
 

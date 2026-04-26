@@ -189,8 +189,8 @@ export default function Overview() {
                             <p className="text-xs">{topLoaded ? (needsReauth ? 'Re-authorize to load.' : 'No top tracks yet.') : 'Loading…'}</p>
                         </div>
                     ) : (
-                        <div className="space-y-2 -mr-2 pr-2 overflow-y-auto max-h-[340px]">
-                            {topTracks.slice(0, 8).map((t, i) => (
+                        <div className="space-y-2 -mr-2 pr-2 overflow-y-auto max-h-[420px]">
+                            {topTracks.slice(0, 10).map((t, i) => (
                                 <div key={t.id || i} className="flex items-center gap-3 p-1.5 rounded-xl hover:bg-white/[0.04]">
                                     <span className="text-[11px] text-white/30 w-4 text-right tabular-nums">{i + 1}</span>
                                     {t.albumImage ? (

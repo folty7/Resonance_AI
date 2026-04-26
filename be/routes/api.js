@@ -101,4 +101,16 @@ router.post('/playlists', async (req, res) => {
     }
 });
 
+// @route   GET /api/me
+// @desc    Get current user profile
+router.get('/me', async (req, res) => {
+    try {
+        const me = await req.spotifyApi.getMe();
+        res.json({ success: true, user: me.body });
+    } catch (error) {
+        console.error('Me error:', error);
+        res.status(500).json({ error: error.message });
+    }
+});
+
 module.exports = router;

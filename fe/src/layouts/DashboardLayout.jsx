@@ -30,8 +30,18 @@ const NAV_PREFS = [
 
 export default function DashboardLayout() {
     const navigate = useNavigate()
-    const { clearAuth } = useStore()
+    const { user, setUser, clearAuth } = useStore()
     const { fetchTracks, error: tracksError } = useTracksStore()
+
+    useEffect(() => {
+        if (!user) {
+            apiClient.get('/me').then(res => {
+                if (res.data.success) {
+                    setUser(res.data.user)
+                }
+            }).catch(() => {})
+        }
+    }, [user, setUser])
 
     // Load library once when the dashboard mounts
     useEffect(() => {
@@ -94,21 +104,19 @@ export default function DashboardLayout() {
                 {/* MAIN */}
                 <main className="flex-1 min-w-0 px-6 lg:px-8 py-6">
                     {/* TOP BAR */}
-                    <header className="flex items-center gap-4 mb-7">
-                        <div className="relative flex-1 max-w-xl">
-                            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/40" />
-                            <input
-                                placeholder="Search…"
-                                className="w-full h-11 pl-11 pr-4 rounded-full bg-white/[0.04] border border-white/[0.06] text-sm placeholder-white/30 focus:outline-none focus:border-green-500/40 focus:ring-1 focus:ring-green-500/30 transition-all"
-                            />
-                        </div>
-
-                        <div className="ml-auto flex items-center gap-3">
+                    <header className="flex items-center justify-end mb-7">
+                        <div className="flex items-center gap-3">
                             <div className="flex items-center gap-3 px-1 pr-4 h-11 rounded-full bg-white/[0.04] border border-white/[0.06]">
-                                <div className="w-9 h-9 rounded-full bg-gradient-to-br from-green-400 to-green-600 flex items-center justify-center text-sm font-semibold">L</div>
-                                <div className="text-left">
-                                    <p className="text-sm font-medium leading-tight">Listener</p>
-                                    <p className="text-[11px] text-white/40 leading-tight">Pro Account</p>
+                                {user?.images?.[0]?.url ? (
+                                    <img src={user.images[0].url} alt="Profile" className="w-9 h-9 rounded-full object-cover" />
+                                ) : (
+                                    <div className="w-9 h-9 rounded-full bg-gradient-to-br from-green-400 to-green-600 flex items-center justify-center text-sm font-semibold text-white">
+                                        {user?.display_name ? user.display_name.charAt(0).toUpperCase() : 'L'}
+                                    </div>
+                                )}
+                                <div className="text-left hidden sm:block">
+                                    <p className="text-sm font-medium leading-tight truncate max-w-[120px]">{user?.display_name || 'Listener'}</p>
+                                    <p className="text-[11px] text-white/40 leading-tight">{user?.product === 'premium' ? 'Premium Account' : 'Free Account'}</p>
                                 </div>
                             </div>
                             <button
