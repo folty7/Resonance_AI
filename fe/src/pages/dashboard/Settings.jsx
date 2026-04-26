@@ -150,15 +150,6 @@ export default function Settings() {
                             The free tier covers many sorts per day. Lyra uses <code className="text-white/70 bg-white/[0.06] px-1 rounded">gemini-2.5-flash-lite</code> by default, the cheapest model.
                         </p>
                     </div>
-
-                    <div className="rounded-2xl bg-white/[0.03] border border-white/[0.06] p-5">
-                        <h4 className="text-sm font-medium mb-2">About data &amp; privacy</h4>
-                        <ul className="space-y-1.5 text-[12px] text-white/55 leading-relaxed">
-                            <li>• Your saved playlists live in browser storage, not on our servers.</li>
-                            <li>• Spotify access is read-only for your library; write-only for playlists you push.</li>
-                            <li>• Your API key is sent per-request as a header and never stored server-side.</li>
-                        </ul>
-                    </div>
                 </div>
             </div>
         </div>
