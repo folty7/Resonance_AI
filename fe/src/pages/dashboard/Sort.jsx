@@ -106,7 +106,7 @@ export default function Sort() {
                 <div className="lg:col-span-7 space-y-5">
                     <div className="rounded-3xl bg-gradient-to-b from-white/[0.05] to-white/[0.02] border border-white/[0.06] p-6">
                         <div className="flex items-center gap-2.5 mb-4">
-                            <div className="w-9 h-9 rounded-full bg-gradient-to-br from-orange-400 to-orange-600 flex items-center justify-center">
+                            <div className="w-9 h-9 rounded-full bg-gradient-to-br from-green-400 to-green-600 flex items-center justify-center">
                                 <Sparkles className="w-4 h-4 text-white" />
                             </div>
                             <h3 className="text-xl font-medium">Configure</h3>
@@ -123,7 +123,7 @@ export default function Sort() {
                                         onClick={() => toggleParam(p)}
                                         className={`px-4 h-9 rounded-full text-xs font-medium border transition-all ${
                                             active
-                                                ? 'bg-orange-500/20 border-orange-400/60 text-white'
+                                                ? 'bg-green-500/20 border-green-400/60 text-white'
                                                 : 'bg-white/[0.03] border-white/[0.08] text-white/60 hover:text-white hover:bg-white/[0.06]'
                                         }`}
                                     >
@@ -142,7 +142,7 @@ export default function Sort() {
                                     disabled={n > tracks.length && tracks.length > 0}
                                     className={`px-4 h-9 rounded-full text-xs font-medium border transition-all disabled:opacity-30 disabled:cursor-not-allowed ${
                                         sampleSize === n
-                                            ? 'bg-orange-500/20 border-orange-400/60 text-white'
+                                            ? 'bg-green-500/20 border-green-400/60 text-white'
                                             : 'bg-white/[0.03] border-white/[0.08] text-white/60 hover:text-white hover:bg-white/[0.06]'
                                     }`}
                                 >
@@ -159,13 +159,13 @@ export default function Sort() {
                             value={extra}
                             onChange={e => setExtra(e.target.value)}
                             placeholder="e.g. focus on 2020s, or split by mood"
-                            className="w-full h-11 bg-white/[0.04] border border-white/[0.06] rounded-full px-5 text-sm placeholder-white/30 focus:outline-none focus:border-orange-500/40 focus:ring-1 focus:ring-orange-500/30 mb-4"
+                            className="w-full h-11 bg-white/[0.04] border border-white/[0.06] rounded-full px-5 text-sm placeholder-white/30 focus:outline-none focus:border-green-500/40 focus:ring-1 focus:ring-green-500/30 mb-4"
                         />
 
                         <Button
                             onClick={handleSort}
                             disabled={isSorting || tracks.length === 0 || selectedParams.size === 0}
-                            className="w-full h-12 rounded-full bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-400 hover:to-orange-500 disabled:opacity-50 text-white font-medium border-0"
+                            className="w-full h-12 rounded-full bg-gradient-to-r from-green-500 to-green-600 hover:from-green-400 hover:to-green-500 disabled:opacity-50 text-white font-medium border-0"
                         >
                             {isSorting ? "Asking Gemini…" : `Sort ${Math.min(sampleSize, tracks.length)} tracks with AI`}
                         </Button>
@@ -176,7 +176,7 @@ export default function Sort() {
                     {!hasUserKey && (
                         <Link
                             to="/dashboard/settings"
-                            className="flex items-center gap-3 rounded-2xl bg-white/[0.03] border border-white/[0.06] hover:border-orange-400/30 transition-colors p-4 group"
+                            className="flex items-center gap-3 rounded-2xl bg-white/[0.03] border border-white/[0.06] hover:border-green-400/30 transition-colors p-4 group"
                         >
                             <div className="w-9 h-9 rounded-full bg-white/[0.04] border border-white/[0.06] flex items-center justify-center shrink-0">
                                 <SettingsIcon className="w-4 h-4 text-white/60" />
@@ -196,7 +196,7 @@ export default function Sort() {
                         <div className="flex items-center justify-between mb-4">
                             <h3 className="text-xl font-medium">Suggestions</h3>
                             {groups.length > 0 && (
-                                <button onClick={keepAll} className="text-xs text-orange-400 hover:text-orange-300 font-medium flex items-center gap-1">
+                                <button onClick={keepAll} className="text-xs text-green-400 hover:text-green-300 font-medium flex items-center gap-1">
                                     <Plus className="w-3.5 h-3.5" /> Keep all
                                 </button>
                             )}
@@ -218,7 +218,7 @@ export default function Sort() {
                                         </div>
                                         <p className="text-[11px] text-white/50 mb-2.5 line-clamp-2">{g.description}</p>
                                         <div className="flex gap-2">
-                                            <button onClick={() => keepGroup(idx)} className="flex-1 h-8 rounded-full bg-orange-500/90 hover:bg-orange-400 text-white text-xs font-medium">Keep</button>
+                                            <button onClick={() => keepGroup(idx)} className="flex-1 h-8 rounded-full bg-green-500/90 hover:bg-green-400 text-white text-xs font-medium">Keep</button>
                                             <button onClick={() => discardGroup(idx)} className="flex-1 h-8 rounded-full bg-white/[0.04] hover:bg-white/[0.08] text-white/70 text-xs font-medium">Discard</button>
                                         </div>
                                     </div>
@@ -235,7 +235,7 @@ export default function Sort() {
                             </div>
                             <div className="space-y-2 max-h-[280px] overflow-y-auto -mr-2 pr-2">
                                 {savedPlaylists.map((p, i) => {
-                                    const colors = ['from-cyan-400 to-blue-500', 'from-yellow-400 to-orange-500', 'from-emerald-400 to-green-500', 'from-purple-400 to-fuchsia-500']
+                                    const colors = ['from-cyan-400 to-blue-500', 'from-emerald-400 to-green-500', 'from-emerald-400 to-green-500', 'from-purple-400 to-fuchsia-500']
                                     const c = colors[i % colors.length]
                                     const isPushing = pushingIds.has(p.id)
                                     return (

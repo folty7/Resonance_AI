@@ -85,7 +85,7 @@ export default function Library() {
                 <button
                     onClick={() => fetchTracks({ force: true })}
                     disabled={isLoading || isRefreshing}
-                    className="h-10 px-4 rounded-full bg-white/[0.04] border border-white/[0.06] text-xs flex items-center gap-2 hover:bg-white/[0.08] hover:border-orange-400/30 disabled:opacity-50 self-start"
+                    className="h-10 px-4 rounded-full bg-white/[0.04] border border-white/[0.06] text-xs flex items-center gap-2 hover:bg-white/[0.08] hover:border-green-400/30 disabled:opacity-50 self-start"
                 >
                     <RefreshCw className={`w-3.5 h-3.5 ${(isLoading || isRefreshing) ? 'animate-spin' : ''}`} />
                     {isRefreshing ? 'Refreshing…' : 'Refresh from Spotify'}
@@ -100,7 +100,7 @@ export default function Library() {
                         value={query}
                         onChange={e => setQuery(e.target.value)}
                         placeholder="Search title, artist, album…"
-                        className="w-full h-11 pl-11 pr-10 rounded-full bg-white/[0.04] border border-white/[0.06] text-sm placeholder-white/30 focus:outline-none focus:border-orange-500/40 focus:ring-1 focus:ring-orange-500/30"
+                        className="w-full h-11 pl-11 pr-10 rounded-full bg-white/[0.04] border border-white/[0.06] text-sm placeholder-white/30 focus:outline-none focus:border-green-500/40 focus:ring-1 focus:ring-green-500/30"
                     />
                     {query && (
                         <button
@@ -123,12 +123,12 @@ export default function Library() {
                     {sortOpen && (
                         <>
                             <div className="fixed inset-0 z-30" onClick={() => setSortOpen(false)} />
-                            <div className="absolute right-0 top-full mt-2 w-56 rounded-2xl bg-[#1a1208] border border-white/10 shadow-xl z-40 overflow-hidden">
+                            <div className="absolute right-0 top-full mt-2 w-56 rounded-2xl bg-[#081a0c] border border-white/10 shadow-xl z-40 overflow-hidden">
                                 {SORTS.map(s => (
                                     <button
                                         key={s.key}
                                         onClick={() => { setSort(s.key); setSortOpen(false) }}
-                                        className={`w-full text-left px-4 py-2.5 text-xs hover:bg-white/[0.06] transition-colors ${sort === s.key ? 'text-orange-300' : 'text-white/70'}`}
+                                        className={`w-full text-left px-4 py-2.5 text-xs hover:bg-white/[0.06] transition-colors ${sort === s.key ? 'text-green-300' : 'text-white/70'}`}
                                     >
                                         {s.label}
                                     </button>
@@ -205,7 +205,7 @@ function TrackRow({ track, index }) {
 function AlbumArt({ url, alt }) {
     if (!url) {
         return (
-            <div className="w-10 h-10 rounded-md bg-gradient-to-br from-orange-500/30 to-amber-500/20 border border-white/[0.06] flex items-center justify-center shrink-0">
+            <div className="w-10 h-10 rounded-md bg-gradient-to-br from-green-500/30 to-emerald-500/20 border border-white/[0.06] flex items-center justify-center shrink-0">
                 <Music className="w-4 h-4 text-white/40" />
             </div>
         )

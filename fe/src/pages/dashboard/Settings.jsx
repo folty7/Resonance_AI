@@ -39,7 +39,7 @@ export default function Settings() {
                 {/* Gemini API Key */}
                 <div className="lg:col-span-7 rounded-3xl bg-gradient-to-b from-white/[0.05] to-white/[0.02] border border-white/[0.06] p-6">
                     <div className="flex items-center gap-2.5 mb-4">
-                        <div className="w-9 h-9 rounded-full bg-gradient-to-br from-orange-400 to-orange-600 flex items-center justify-center">
+                        <div className="w-9 h-9 rounded-full bg-gradient-to-br from-green-400 to-green-600 flex items-center justify-center">
                             <Key className="w-4 h-4 text-white" />
                         </div>
                         <h3 className="text-xl font-medium">Gemini API key</h3>
@@ -63,7 +63,7 @@ export default function Settings() {
                             placeholder="AIza…"
                             spellCheck={false}
                             autoComplete="off"
-                            className="w-full h-11 pl-4 pr-12 bg-white/[0.04] border border-white/[0.06] rounded-full text-sm font-mono placeholder-white/30 focus:outline-none focus:border-orange-500/40 focus:ring-1 focus:ring-orange-500/30"
+                            className="w-full h-11 pl-4 pr-12 bg-white/[0.04] border border-white/[0.06] rounded-full text-sm font-mono placeholder-white/30 focus:outline-none focus:border-green-500/40 focus:ring-1 focus:ring-green-500/30"
                         />
                         <button
                             type="button"
@@ -84,7 +84,7 @@ export default function Settings() {
                         <Button
                             onClick={handleSave}
                             disabled={keyInput.trim() === savedKey}
-                            className="h-10 px-5 rounded-full bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-400 hover:to-orange-500 disabled:opacity-50 text-white text-sm font-medium border-0"
+                            className="h-10 px-5 rounded-full bg-gradient-to-r from-green-500 to-green-600 hover:from-green-400 hover:to-green-500 disabled:opacity-50 text-white text-sm font-medium border-0"
                         >
                             {savedFlash ? 'Saved!' : 'Save key'}
                         </Button>
@@ -110,38 +110,38 @@ export default function Settings() {
 
                 {/* Guide */}
                 <div className="lg:col-span-5 space-y-5">
-                    <div className="rounded-3xl bg-gradient-to-b from-orange-500/10 to-orange-600/[0.02] border border-orange-400/25 p-6">
+                    <div className="rounded-3xl bg-gradient-to-b from-green-500/10 to-green-600/[0.02] border border-green-400/25 p-6">
                         <div className="flex items-center gap-2.5 mb-4">
-                            <div className="w-9 h-9 rounded-full bg-gradient-to-br from-orange-400 to-orange-600 flex items-center justify-center">
+                            <div className="w-9 h-9 rounded-full bg-gradient-to-br from-green-400 to-green-600 flex items-center justify-center">
                                 <Sparkles className="w-4 h-4 text-white" />
                             </div>
                             <h3 className="text-base font-medium">How to get a Gemini key</h3>
                         </div>
                         <ol className="space-y-3 text-sm text-white/70 leading-relaxed">
                             <li className="flex gap-3">
-                                <span className="shrink-0 w-6 h-6 rounded-full bg-orange-500/20 border border-orange-400/40 text-orange-200 text-xs flex items-center justify-center font-medium">1</span>
+                                <span className="shrink-0 w-6 h-6 rounded-full bg-green-500/20 border border-green-400/40 text-green-200 text-xs flex items-center justify-center font-medium">1</span>
                                 <span>
                                     Open Google AI Studio:&nbsp;
                                     <a
                                         href="https://aistudio.google.com/apikey"
                                         target="_blank"
                                         rel="noreferrer"
-                                        className="inline-flex items-center gap-1 text-orange-300 hover:text-orange-200 underline underline-offset-2"
+                                        className="inline-flex items-center gap-1 text-green-300 hover:text-green-200 underline underline-offset-2"
                                     >
                                         aistudio.google.com/apikey <ExternalLink className="w-3 h-3" />
                                     </a>
                                 </span>
                             </li>
                             <li className="flex gap-3">
-                                <span className="shrink-0 w-6 h-6 rounded-full bg-orange-500/20 border border-orange-400/40 text-orange-200 text-xs flex items-center justify-center font-medium">2</span>
+                                <span className="shrink-0 w-6 h-6 rounded-full bg-green-500/20 border border-green-400/40 text-green-200 text-xs flex items-center justify-center font-medium">2</span>
                                 <span>Sign in with Google and click <strong className="text-white">Create API key</strong>. Pick any project (or let it create one).</span>
                             </li>
                             <li className="flex gap-3">
-                                <span className="shrink-0 w-6 h-6 rounded-full bg-orange-500/20 border border-orange-400/40 text-orange-200 text-xs flex items-center justify-center font-medium">3</span>
+                                <span className="shrink-0 w-6 h-6 rounded-full bg-green-500/20 border border-green-400/40 text-green-200 text-xs flex items-center justify-center font-medium">3</span>
                                 <span>Copy the key (it starts with <code className="text-white/80 bg-white/[0.06] px-1.5 py-0.5 rounded text-[11px]">AIza…</code>) and paste it on the left.</span>
                             </li>
                             <li className="flex gap-3">
-                                <span className="shrink-0 w-6 h-6 rounded-full bg-orange-500/20 border border-orange-400/40 text-orange-200 text-xs flex items-center justify-center font-medium">4</span>
+                                <span className="shrink-0 w-6 h-6 rounded-full bg-green-500/20 border border-green-400/40 text-green-200 text-xs flex items-center justify-center font-medium">4</span>
                                 <span>Click <strong className="text-white">Save key</strong>. Lyra now uses your key for every AI Sort.</span>
                             </li>
                         </ol>

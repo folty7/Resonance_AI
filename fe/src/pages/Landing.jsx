@@ -8,18 +8,18 @@ const LAUNCH_URL = typeof window !== 'undefined'
 function LyraLogo({ size = 36 }) {
     return (
         <div className="relative shrink-0" style={{ width: size, height: size }}>
-            <div className="absolute inset-0 rounded-full bg-gradient-to-br from-orange-400 to-orange-700 shadow-[0_0_24px_rgba(249,115,22,0.45)]" />
+            <div className="absolute inset-0 rounded-full bg-gradient-to-br from-green-400 to-green-700 shadow-[0_0_24px_rgba(34,197,94,0.45)]" />
             <div className="absolute inset-[18%] rounded-full bg-black/45 backdrop-blur" />
-            <div className="absolute inset-[30%] rounded-full bg-gradient-to-br from-orange-300 to-orange-600" />
+            <div className="absolute inset-[30%] rounded-full bg-gradient-to-br from-green-300 to-green-600" />
         </div>
     )
 }
 
 function MiniGauge() {
     const segments = [
-        { color: '#ea580c', from: 0, to: 0.2 },
-        { color: '#f59e0b', from: 0.2, to: 0.4 },
-        { color: '#fbbf24', from: 0.4, to: 0.6 },
+        { color: '#16a34a', from: 0, to: 0.2 },
+        { color: '#059669', from: 0.2, to: 0.4 },
+        { color: '#34d399', from: 0.4, to: 0.6 },
         { color: '#a78bfa', from: 0.6, to: 0.8 },
         { color: '#22c55e', from: 0.8, to: 1 },
     ]
@@ -39,7 +39,7 @@ function MiniGauge() {
                 <path key={i} d={arc(s.from + 0.02, s.to - 0.02)} stroke={s.color} strokeWidth="9" strokeLinecap="round" fill="none" />
             ))}
             <circle cx={mx} cy={my} r="6" fill="white" />
-            <rect x={mx - 2.5} y={my - 2.5} width="5" height="5" rx="1" fill="#ea580c" />
+            <rect x={mx - 2.5} y={my - 2.5} width="5" height="5" rx="1" fill="#16a34a" />
         </svg>
     )
 }
@@ -63,10 +63,10 @@ function LaptopMockup() {
         <div className="relative mx-auto w-full max-w-5xl">
             <div className="relative rounded-t-xl bg-gradient-to-b from-zinc-800 to-zinc-900 border border-white/10 border-b-0 p-3 shadow-[0_30px_80px_rgba(0,0,0,0.6)]">
                 <div className="absolute top-2 left-1/2 -translate-x-1/2 h-1.5 w-16 rounded-full bg-zinc-700" />
-                <div className="rounded-md overflow-hidden aspect-[16/10] bg-[#0a0604] relative">
+                <div className="rounded-md overflow-hidden aspect-[16/10] bg-[#040a06] relative">
                     {/* warm glows */}
-                    <div className="absolute -top-[10%] -right-[5%] h-56 w-56 rounded-full bg-orange-500/30 blur-3xl pointer-events-none" />
-                    <div className="absolute bottom-0 left-[10%] h-40 w-40 rounded-full bg-amber-500/15 blur-3xl pointer-events-none" />
+                    <div className="absolute -top-[10%] -right-[5%] h-56 w-56 rounded-full bg-green-500/30 blur-3xl pointer-events-none" />
+                    <div className="absolute bottom-0 left-[10%] h-40 w-40 rounded-full bg-green-500/15 blur-3xl pointer-events-none" />
 
                     <div className="relative flex h-full text-[9px]">
                         {/* Sidebar */}
@@ -88,7 +88,7 @@ function LaptopMockup() {
                                 <div className="flex-1 h-5 rounded-full bg-white/[0.04] border border-white/[0.06]" />
                                 <div className="h-5 w-5 rounded-full bg-white/[0.04] border border-white/[0.06]" />
                                 <div className="h-5 px-2 rounded-full bg-white/[0.04] border border-white/[0.06] flex items-center gap-1">
-                                    <div className="h-3 w-3 rounded-full bg-gradient-to-br from-orange-400 to-orange-600" />
+                                    <div className="h-3 w-3 rounded-full bg-gradient-to-br from-green-400 to-green-600" />
                                     <span className="text-white/70 text-[7px]">Listener</span>
                                 </div>
                             </div>
@@ -101,7 +101,7 @@ function LaptopMockup() {
                                 </div>
                                 <div className="col-span-5 rounded-lg bg-white/[0.04] border border-white/[0.06] p-2">
                                     <p className="text-white text-[14px] font-semibold leading-none">$380,005</p>
-                                    <p className="text-orange-400 text-[7px] mt-0.5">+5 (1.30)</p>
+                                    <p className="text-green-400 text-[7px] mt-0.5">+5 (1.30)</p>
                                     <div className="mt-1"><MiniGauge /></div>
                                 </div>
                                 <div className="col-span-4 rounded-lg bg-white/[0.04] border border-white/[0.06] p-2">
@@ -119,15 +119,15 @@ function LaptopMockup() {
                                         <span className="text-[6px] px-1.5 py-0.5 text-white/50">Genres</span>
                                     </div>
                                     <svg viewBox="0 0 200 50" className="w-full h-10">
-                                        <path d="M0 30 L25 22 L50 28 L75 16 L100 10 L125 18 L150 22 L175 14 L200 24" stroke="#ea580c" strokeWidth="1.5" fill="none" />
-                                        <path d="M0 38 L25 34 L50 32 L75 36 L100 30 L125 32 L150 38 L175 34 L200 36" stroke="#f59e0b" strokeWidth="1.5" fill="none" />
+                                        <path d="M0 30 L25 22 L50 28 L75 16 L100 10 L125 18 L150 22 L175 14 L200 24" stroke="#16a34a" strokeWidth="1.5" fill="none" />
+                                        <path d="M0 38 L25 34 L50 32 L75 36 L100 30 L125 32 L150 38 L175 34 L200 36" stroke="#059669" strokeWidth="1.5" fill="none" />
                                         <path d="M0 42 L25 40 L50 44 L75 38 L100 42 L125 40 L150 44 L175 42 L200 40" stroke="#a78bfa" strokeWidth="1.5" fill="none" />
                                     </svg>
                                 </div>
                                 <div className="col-span-5 rounded-lg bg-white/[0.04] border border-white/[0.06] p-2">
                                     <p className="text-white text-[8px] font-medium mb-1.5">Saved Playlists</p>
                                     {['Sunset Drive', 'Late Night', 'Throwback'].map((n, i) => {
-                                        const c = ['from-cyan-400 to-blue-500', 'from-yellow-400 to-orange-500', 'from-emerald-400 to-green-500'][i]
+                                        const c = ['from-cyan-400 to-blue-500', 'from-teal-400 to-green-500', 'from-emerald-400 to-green-500'][i]
                                         return (
                                             <div key={i} className="flex items-center gap-1.5 mb-1">
                                                 <div className={`h-3 w-3 rounded-full bg-gradient-to-br ${c}`} />
@@ -152,10 +152,10 @@ function MobileMockup() {
     return (
         <div className="relative mx-auto w-[240px] rounded-[2.5rem] bg-gradient-to-b from-zinc-800 to-zinc-900 border border-white/10 p-2 shadow-[0_20px_60px_rgba(0,0,0,0.6)]">
             <div className="absolute top-3 left-1/2 -translate-x-1/2 h-5 w-20 rounded-full bg-black z-10" />
-            <div className="rounded-[2rem] overflow-hidden aspect-[9/19] bg-[#0a0604]">
+            <div className="rounded-[2rem] overflow-hidden aspect-[9/19] bg-[#040a06]">
                 <div className="relative h-full w-full p-4 text-[10px]">
-                    <div className="absolute -top-[10%] -right-[10%] h-40 w-40 rounded-full bg-orange-500/30 blur-3xl" />
-                    <div className="absolute bottom-[10%] -left-[10%] h-32 w-32 rounded-full bg-amber-500/15 blur-3xl" />
+                    <div className="absolute -top-[10%] -right-[10%] h-40 w-40 rounded-full bg-green-500/30 blur-3xl" />
+                    <div className="absolute bottom-[10%] -left-[10%] h-32 w-32 rounded-full bg-green-500/15 blur-3xl" />
 
                     <div className="relative pt-8 mb-3 flex items-center justify-between">
                         <span className="text-white font-medium text-xs">Saved</span>
@@ -165,7 +165,7 @@ function MobileMockup() {
                     <div className="relative space-y-2">
                         {[
                             { n: "Sunset Drive", d: "Golden-hour indie", c: 14, color: 'from-cyan-400 to-blue-500' },
-                            { n: "Late Night Studio", d: "Lo-fi & ambient", c: 22, color: 'from-yellow-400 to-orange-500' },
+                            { n: "Late Night Studio", d: "Lo-fi & ambient", c: 22, color: 'from-teal-400 to-green-500' },
                             { n: "Throwback 2000s", d: "Pop anthems", c: 17, color: 'from-emerald-400 to-green-500' }
                         ].map((p, i) => (
                             <div key={i} className="rounded-2xl bg-white/[0.04] border border-white/[0.06] p-2.5">
@@ -177,7 +177,7 @@ function MobileMockup() {
                                     </div>
                                 </div>
                                 <div className="flex gap-1">
-                                    <div className="flex-1 h-5 rounded-full bg-orange-500/90 text-white text-[7px] flex items-center justify-center font-medium">
+                                    <div className="flex-1 h-5 rounded-full bg-green-500/90 text-white text-[7px] flex items-center justify-center font-medium">
                                         Push
                                     </div>
                                     <div className="flex-1 h-5 rounded-full bg-white/[0.05] border border-white/10 text-white/70 text-[7px] flex items-center justify-center">
@@ -196,21 +196,21 @@ function MobileMockup() {
 function HeroPanelMockup() {
     return (
         <div className="relative mx-auto w-full max-w-md rounded-[1.75rem] bg-gradient-to-b from-zinc-800 to-zinc-900 border border-white/10 p-2.5 shadow-[0_30px_80px_rgba(0,0,0,0.6)]">
-            <div className="rounded-[1.25rem] overflow-hidden aspect-[4/5] bg-[#0a0604]">
+            <div className="rounded-[1.25rem] overflow-hidden aspect-[4/5] bg-[#040a06]">
                 <div className="relative h-full w-full p-6 flex flex-col items-center justify-center text-center">
-                    <div className="absolute -top-[10%] -right-[10%] h-60 w-60 rounded-full bg-orange-500/35 blur-3xl" />
-                    <div className="absolute -bottom-[10%] -left-[10%] h-52 w-52 rounded-full bg-amber-500/20 blur-3xl" />
+                    <div className="absolute -top-[10%] -right-[10%] h-60 w-60 rounded-full bg-green-500/35 blur-3xl" />
+                    <div className="absolute -bottom-[10%] -left-[10%] h-52 w-52 rounded-full bg-green-500/20 blur-3xl" />
 
                     <div className="relative">
                         <LyraLogo size={64} />
                     </div>
-                    <h3 className="relative text-white text-3xl font-semibold tracking-tight mt-5 bg-gradient-to-b from-white to-orange-200/80 bg-clip-text text-transparent">
+                    <h3 className="relative text-white text-3xl font-semibold tracking-tight mt-5 bg-gradient-to-b from-white to-green-200/80 bg-clip-text text-transparent">
                         Lyra
                     </h3>
                     <p className="relative text-[11px] text-white/60 mt-2 px-4">
                         AI-curated playlists from your saved library.
                     </p>
-                    <div className="relative mt-6 h-9 w-44 rounded-full bg-gradient-to-r from-orange-500 to-orange-600 text-white text-[11px] font-medium flex items-center justify-center gap-1.5 shadow-[0_8px_20px_rgba(249,115,22,0.4)]">
+                    <div className="relative mt-6 h-9 w-44 rounded-full bg-gradient-to-r from-green-500 to-green-600 text-white text-[11px] font-medium flex items-center justify-center gap-1.5 shadow-[0_8px_20px_rgba(34,197,94,0.4)]">
                         <svg viewBox="0 0 24 24" fill="currentColor" className="h-3.5 w-3.5">
                             <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.59 14.41c-.19.3-.58.39-.88.2-2.41-1.47-5.44-1.8-9.01-.99-.34.08-.68-.14-.76-.48-.08-.34.14-.68.48-.76 3.91-.89 7.27-.51 9.96 1.14.3.19.39.58.21.89z" />
                         </svg>
@@ -242,16 +242,16 @@ const STEPS = [
     { n: "03", title: "Push", body: "Keep the playlists you like and publish them to Spotify in one tap." }
 ]
 
-const cardClass = "rounded-2xl bg-gradient-to-b from-white/[0.05] to-white/[0.02] border border-white/[0.07] hover:border-orange-400/30 transition-colors"
+const cardClass = "rounded-2xl bg-gradient-to-b from-white/[0.05] to-white/[0.02] border border-white/[0.07] hover:border-green-400/30 transition-colors"
 
 export default function Landing() {
     return (
-        <div className="relative flex min-h-screen w-full flex-col bg-[#0a0604] font-sans text-white overflow-hidden">
+        <div className="relative flex min-h-screen w-full flex-col bg-[#040a06] font-sans text-white overflow-hidden">
 
             {/* Ambient warm glows */}
-            <div className="pointer-events-none absolute -top-[10%] -right-[10%] h-[800px] w-[800px] rounded-full bg-orange-600/30 blur-[160px]" />
-            <div className="pointer-events-none absolute top-[35%] -left-[15%] h-[600px] w-[600px] rounded-full bg-orange-500/15 blur-[160px]" />
-            <div className="pointer-events-none absolute bottom-[5%] right-[10%] h-[500px] w-[500px] rounded-full bg-amber-500/15 blur-[140px]" />
+            <div className="pointer-events-none absolute -top-[10%] -right-[10%] h-[800px] w-[800px] rounded-full bg-green-600/30 blur-[160px]" />
+            <div className="pointer-events-none absolute top-[35%] -left-[15%] h-[600px] w-[600px] rounded-full bg-green-500/15 blur-[160px]" />
+            <div className="pointer-events-none absolute bottom-[5%] right-[10%] h-[500px] w-[500px] rounded-full bg-green-500/15 blur-[140px]" />
 
             {/* Nav */}
             <header className="relative z-20 flex items-center justify-between px-6 sm:px-10 py-5 w-full max-w-7xl mx-auto">
@@ -277,13 +277,13 @@ export default function Landing() {
                 <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
                     <div className="flex flex-col">
                         <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.04] border border-white/[0.08] text-[11px] text-white/60 w-fit mb-6 backdrop-blur-md">
-                            <span className="h-1.5 w-1.5 rounded-full bg-orange-400 animate-pulse" />
+                            <span className="h-1.5 w-1.5 rounded-full bg-green-400 animate-pulse" />
                             AI-powered · Powered by Gemini
                         </span>
 
                         <h1 className="text-5xl sm:text-6xl lg:text-7xl font-semibold tracking-tight text-white leading-[1.05] mb-6">
                             Your library,<br />
-                            <span className="bg-gradient-to-r from-orange-300 via-amber-300 to-orange-400 bg-clip-text text-transparent">
+                            <span className="bg-gradient-to-r from-green-300 via-emerald-300 to-green-400 bg-clip-text text-transparent">
                                 intelligently sorted.
                             </span>
                         </h1>
@@ -297,7 +297,7 @@ export default function Landing() {
                             <a href={LAUNCH_URL}>
                                 <Button
                                     size="lg"
-                                    className="h-13 px-8 rounded-full bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-400 hover:to-orange-500 border-0 text-white shadow-[0_8px_24px_rgba(249,115,22,0.4)] font-medium text-[15px] flex items-center gap-2.5"
+                                    className="h-13 px-8 rounded-full bg-gradient-to-r from-green-500 to-green-600 hover:from-green-400 hover:to-green-500 border-0 text-white shadow-[0_8px_24px_rgba(34,197,94,0.4)] font-medium text-[15px] flex items-center gap-2.5"
                                 >
                                     <svg viewBox="0 0 24 24" fill="currentColor" className="h-5 w-5">
                                         <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.59 14.41c-.19.3-.58.39-.88.2-2.41-1.47-5.44-1.8-9.01-.99-.34.08-.68-.14-.76-.48-.08-.34.14-.68.48-.76 3.91-.89 7.27-.51 9.96 1.14.3.19.39.58.21.89zm1.22-2.72c-.24.37-.74.49-1.11.25-2.75-1.69-6.94-2.18-10.2-1.19-.42.13-.87-.11-1-.53-.13-.42.11-.87.53-1 3.72-1.13 8.34-.59 11.51 1.36.37.24.49.74.27 1.11zm.11-2.84C14.73 8.87 9.5 8.7 6.3 9.67c-.5.15-1.03-.13-1.18-.63-.15-.5.13-1.03.63-1.18 3.67-1.11 9.44-.91 13.16 1.29.46.27.61.86.34 1.31-.27.46-.86.61-1.32.34z" />
@@ -401,7 +401,7 @@ export default function Landing() {
                 <div className="grid md:grid-cols-3 gap-4 relative">
                     {STEPS.map((s, i) => (
                         <div key={i} className={`${cardClass} p-8 relative`}>
-                            <span className="text-6xl font-semibold bg-gradient-to-b from-orange-300 to-orange-600 bg-clip-text text-transparent block mb-4">
+                            <span className="text-6xl font-semibold bg-gradient-to-b from-green-300 to-green-600 bg-clip-text text-transparent block mb-4">
                                 {s.n}
                             </span>
                             <h3 className="text-white text-xl font-medium mb-2">{s.title}</h3>
@@ -414,7 +414,7 @@ export default function Landing() {
             {/* Setup */}
             <section id="setup" className="relative z-10 w-full max-w-4xl mx-auto px-6 sm:px-10 py-24">
                 <div className="rounded-3xl bg-gradient-to-b from-white/[0.05] to-white/[0.02] border border-white/[0.07] p-8 sm:p-12">
-                    <span className="inline-block px-3 py-1 rounded-full bg-orange-500/15 border border-orange-400/30 text-orange-200 text-[11px] mb-4">
+                    <span className="inline-block px-3 py-1 rounded-full bg-green-500/15 border border-green-400/30 text-green-200 text-[11px] mb-4">
                         Coming soon — self-hosted option
                     </span>
                     <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight text-white mb-4">Bring your own keys</h2>
@@ -425,13 +425,13 @@ export default function Landing() {
 
                     <div className="space-y-4">
                         {[
-                            { n: 1, t: "Create a Spotify Developer app", b: <>Visit <span className="text-orange-300">developer.spotify.com/dashboard</span>, create an app, and copy the Client ID + Secret. Set the redirect URI to your deployment URL.</> },
-                            { n: 2, t: "Grab a Gemini API key", b: <>Generate one at <span className="text-orange-300">aistudio.google.com/apikey</span>. The free tier is plenty for personal use.</> },
+                            { n: 1, t: "Create a Spotify Developer app", b: <>Visit <span className="text-green-300">developer.spotify.com/dashboard</span>, create an app, and copy the Client ID + Secret. Set the redirect URI to your deployment URL.</> },
+                            { n: 2, t: "Grab a Gemini API key", b: <>Generate one at <span className="text-green-300">aistudio.google.com/apikey</span>. The free tier is plenty for personal use.</> },
                             { n: 3, t: "Paste into Lyra settings", b: <>In the self-hosted version, you'll open <span className="text-white/75 bg-white/[0.06] px-1.5 py-0.5 rounded">Settings → API Keys</span> and paste all three values. Lyra encrypts them locally in your browser storage.</> }
                         ].map((step) => (
                             <div key={step.n} className="rounded-2xl bg-black/30 border border-white/[0.06] p-5">
                                 <div className="flex items-center gap-2 mb-2">
-                                    <span className="h-6 w-6 rounded-full bg-gradient-to-br from-orange-400 to-orange-600 text-white text-xs flex items-center justify-center font-medium">{step.n}</span>
+                                    <span className="h-6 w-6 rounded-full bg-gradient-to-br from-green-400 to-green-600 text-white text-xs flex items-center justify-center font-medium">{step.n}</span>
                                     <h4 className="text-white font-medium text-[15px]">{step.t}</h4>
                                 </div>
                                 <p className="text-white/55 text-[13px] ml-8">{step.b}</p>
@@ -462,12 +462,12 @@ GEMINI_API_KEY=•••••`}
                         href="mailto:foland717@gmail.com"
                         className={`${cardClass} p-6 flex items-start gap-4 group`}
                     >
-                        <div className="h-11 w-11 rounded-xl bg-orange-500/15 border border-orange-400/30 flex items-center justify-center shrink-0 text-xl">
+                        <div className="h-11 w-11 rounded-xl bg-green-500/15 border border-green-400/30 flex items-center justify-center shrink-0 text-xl">
                             ✉️
                         </div>
                         <div>
                             <h3 className="text-white font-medium text-[15px] mb-1">Email</h3>
-                            <p className="text-white/60 text-[13px] group-hover:text-orange-300 transition-colors">
+                            <p className="text-white/60 text-[13px] group-hover:text-green-300 transition-colors">
                                 foland717@gmail.com
                             </p>
                         </div>
@@ -484,7 +484,7 @@ GEMINI_API_KEY=•••••`}
                         </div>
                         <div>
                             <h3 className="text-white font-medium text-[15px] mb-1">GitHub</h3>
-                            <p className="text-white/60 text-[13px] group-hover:text-orange-300 transition-colors">
+                            <p className="text-white/60 text-[13px] group-hover:text-green-300 transition-colors">
                                 folty7/Resonance_AI
                             </p>
                         </div>
@@ -504,14 +504,14 @@ GEMINI_API_KEY=•••••`}
                             type="text"
                             required
                             placeholder="Your name"
-                            className="h-11 bg-white/[0.04] border border-white/[0.08] rounded-full px-4 text-white placeholder-white/30 focus:outline-none focus:border-orange-500/40 focus:ring-1 focus:ring-orange-500/30 text-[14px]"
+                            className="h-11 bg-white/[0.04] border border-white/[0.08] rounded-full px-4 text-white placeholder-white/30 focus:outline-none focus:border-green-500/40 focus:ring-1 focus:ring-green-500/30 text-[14px]"
                         />
                         <input
                             name="email"
                             type="email"
                             required
                             placeholder="your@email.com"
-                            className="h-11 bg-white/[0.04] border border-white/[0.08] rounded-full px-4 text-white placeholder-white/30 focus:outline-none focus:border-orange-500/40 focus:ring-1 focus:ring-orange-500/30 text-[14px]"
+                            className="h-11 bg-white/[0.04] border border-white/[0.08] rounded-full px-4 text-white placeholder-white/30 focus:outline-none focus:border-green-500/40 focus:ring-1 focus:ring-green-500/30 text-[14px]"
                         />
                     </div>
                     <textarea
@@ -519,11 +519,11 @@ GEMINI_API_KEY=•••••`}
                         required
                         rows={4}
                         placeholder="What's on your mind?"
-                        className="w-full bg-white/[0.04] border border-white/[0.08] rounded-2xl px-4 py-3 text-white placeholder-white/30 focus:outline-none focus:border-orange-500/40 focus:ring-1 focus:ring-orange-500/30 text-[14px] resize-none mb-4"
+                        className="w-full bg-white/[0.04] border border-white/[0.08] rounded-2xl px-4 py-3 text-white placeholder-white/30 focus:outline-none focus:border-green-500/40 focus:ring-1 focus:ring-green-500/30 text-[14px] resize-none mb-4"
                     />
                     <Button
                         type="submit"
-                        className="h-11 rounded-full bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-400 hover:to-orange-500 border-0 text-white font-medium text-[14px] px-6"
+                        className="h-11 rounded-full bg-gradient-to-r from-green-500 to-green-600 hover:from-green-400 hover:to-green-500 border-0 text-white font-medium text-[14px] px-6"
                     >
                         Send message
                     </Button>
@@ -533,7 +533,7 @@ GEMINI_API_KEY=•••••`}
             {/* Final CTA */}
             <section className="relative z-10 w-full max-w-4xl mx-auto px-6 sm:px-10 py-24">
                 <div className="rounded-3xl bg-gradient-to-b from-white/[0.06] to-white/[0.02] border border-white/[0.08] p-10 sm:p-16 text-center relative overflow-hidden">
-                    <div className="absolute -top-20 left-1/2 -translate-x-1/2 h-60 w-[80%] bg-orange-500/30 blur-3xl pointer-events-none" />
+                    <div className="absolute -top-20 left-1/2 -translate-x-1/2 h-60 w-[80%] bg-green-500/30 blur-3xl pointer-events-none" />
 
                     <div className="relative flex justify-center mb-6">
                         <LyraLogo size={64} />
@@ -547,7 +547,7 @@ GEMINI_API_KEY=•••••`}
                     <a href={LAUNCH_URL} className="relative inline-block">
                         <Button
                             size="lg"
-                            className="h-13 px-8 rounded-full bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-400 hover:to-orange-500 border-0 text-white shadow-[0_8px_24px_rgba(249,115,22,0.4)] font-medium text-[15px] flex items-center gap-2.5"
+                            className="h-13 px-8 rounded-full bg-gradient-to-r from-green-500 to-green-600 hover:from-green-400 hover:to-green-500 border-0 text-white shadow-[0_8px_24px_rgba(34,197,94,0.4)] font-medium text-[15px] flex items-center gap-2.5"
                         >
                             <svg viewBox="0 0 24 24" fill="currentColor" className="h-5 w-5">
                                 <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.59 14.41c-.19.3-.58.39-.88.2-2.41-1.47-5.44-1.8-9.01-.99-.34.08-.68-.14-.76-.48-.08-.34.14-.68.48-.76 3.91-.89 7.27-.51 9.96 1.14.3.19.39.58.21.89z" />

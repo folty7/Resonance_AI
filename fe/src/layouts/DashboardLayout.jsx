@@ -11,9 +11,9 @@ import { apiClient } from "@/api/axios"
 export function LyraMark({ size = 32 }) {
     return (
         <div className="relative shrink-0" style={{ width: size, height: size }}>
-            <div className="absolute inset-0 rounded-full bg-gradient-to-br from-orange-500 to-orange-700 shadow-[0_0_20px_rgba(249,115,22,0.5)]" />
+            <div className="absolute inset-0 rounded-full bg-gradient-to-br from-green-500 to-green-700 shadow-[0_0_20px_rgba(34,197,94,0.5)]" />
             <div className="absolute inset-[18%] rounded-full bg-black/40 backdrop-blur" />
-            <div className="absolute inset-[30%] rounded-full bg-gradient-to-br from-orange-400 to-orange-600" />
+            <div className="absolute inset-[30%] rounded-full bg-gradient-to-br from-green-400 to-green-600" />
         </div>
     )
 }
@@ -52,11 +52,11 @@ export default function DashboardLayout() {
     }
 
     return (
-        <div className="relative min-h-screen w-full bg-[#0a0604] text-white font-sans overflow-hidden">
+        <div className="relative min-h-screen w-full bg-[#040a06] text-white font-sans overflow-hidden">
             {/* ambient warm glow */}
-            <div className="pointer-events-none absolute -top-[10%] -right-[10%] h-[700px] w-[700px] rounded-full bg-orange-600/30 blur-[140px]" />
-            <div className="pointer-events-none absolute top-[40%] -left-[15%] h-[500px] w-[500px] rounded-full bg-orange-500/15 blur-[160px]" />
-            <div className="pointer-events-none absolute bottom-0 right-[10%] h-[400px] w-[400px] rounded-full bg-amber-500/10 blur-[120px]" />
+            <div className="pointer-events-none absolute -top-[10%] -right-[10%] h-[700px] w-[700px] rounded-full bg-green-600/30 blur-[140px]" />
+            <div className="pointer-events-none absolute top-[40%] -left-[15%] h-[500px] w-[500px] rounded-full bg-green-500/15 blur-[160px]" />
+            <div className="pointer-events-none absolute bottom-0 right-[10%] h-[400px] w-[400px] rounded-full bg-green-500/10 blur-[120px]" />
 
             <div className="relative z-10 flex min-h-screen">
                 {/* SIDEBAR */}
@@ -77,14 +77,14 @@ export default function DashboardLayout() {
 
                     <div className="mt-auto pt-6">
                         <div className="relative rounded-2xl bg-gradient-to-b from-white/[0.04] to-white/[0.02] border border-white/[0.08] p-5 text-center overflow-hidden">
-                            <div className="w-12 h-12 rounded-full bg-gradient-to-br from-orange-400 to-orange-600 flex items-center justify-center shadow-lg shadow-orange-500/30">
+                            <div className="w-12 h-12 rounded-full bg-gradient-to-br from-green-400 to-green-600 flex items-center justify-center shadow-lg shadow-green-500/30">
                                 <HelpCircle className="w-6 h-6 text-white" />
                             </div>
                             <p className="mt-6 text-sm font-medium">Help Center</p>
                             <p className="mt-1 text-[11px] text-white/40 leading-relaxed">
                                 Having trouble in Lyra?<br />Please contact us
                             </p>
-                            <button className="mt-4 w-full h-9 rounded-full bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-400 hover:to-orange-500 text-white text-sm font-medium transition-all">
+                            <button className="mt-4 w-full h-9 rounded-full bg-gradient-to-r from-green-500 to-green-600 hover:from-green-400 hover:to-green-500 text-white text-sm font-medium transition-all">
                                 Contact us
                             </button>
                         </div>
@@ -99,13 +99,13 @@ export default function DashboardLayout() {
                             <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/40" />
                             <input
                                 placeholder="Search…"
-                                className="w-full h-11 pl-11 pr-4 rounded-full bg-white/[0.04] border border-white/[0.06] text-sm placeholder-white/30 focus:outline-none focus:border-orange-500/40 focus:ring-1 focus:ring-orange-500/30 transition-all"
+                                className="w-full h-11 pl-11 pr-4 rounded-full bg-white/[0.04] border border-white/[0.06] text-sm placeholder-white/30 focus:outline-none focus:border-green-500/40 focus:ring-1 focus:ring-green-500/30 transition-all"
                             />
                         </div>
 
                         <div className="ml-auto flex items-center gap-3">
                             <div className="flex items-center gap-3 px-1 pr-4 h-11 rounded-full bg-white/[0.04] border border-white/[0.06]">
-                                <div className="w-9 h-9 rounded-full bg-gradient-to-br from-orange-400 to-orange-600 flex items-center justify-center text-sm font-semibold">L</div>
+                                <div className="w-9 h-9 rounded-full bg-gradient-to-br from-green-400 to-green-600 flex items-center justify-center text-sm font-semibold">L</div>
                                 <div className="text-left">
                                     <p className="text-sm font-medium leading-tight">Listener</p>
                                     <p className="text-[11px] text-white/40 leading-tight">Pro Account</p>
@@ -113,7 +113,7 @@ export default function DashboardLayout() {
                             </div>
                             <button
                                 onClick={handleLogout}
-                                className="w-11 h-11 rounded-full bg-white/[0.04] border border-white/[0.06] hover:bg-white/[0.08] hover:border-orange-400/30 transition-colors flex items-center justify-center"
+                                className="w-11 h-11 rounded-full bg-white/[0.04] border border-white/[0.06] hover:bg-white/[0.08] hover:border-green-400/30 transition-colors flex items-center justify-center"
                                 title="Log out"
                             >
                                 <LogOut className="w-4 h-4 text-white/70" />

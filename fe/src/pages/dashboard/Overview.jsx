@@ -137,7 +137,7 @@ export default function Overview() {
                         <button
                             onClick={() => fetchTracks({ force: true })}
                             disabled={isLoading || isRefreshing}
-                            className="h-9 px-4 rounded-full bg-white/[0.04] border border-white/[0.06] text-xs flex items-center gap-2 hover:bg-white/[0.08] hover:border-orange-400/30 disabled:opacity-50 transition-colors"
+                            className="h-9 px-4 rounded-full bg-white/[0.04] border border-white/[0.06] text-xs flex items-center gap-2 hover:bg-white/[0.08] hover:border-green-400/30 disabled:opacity-50 transition-colors"
                             title="Refetch your library from Spotify"
                         >
                             <RefreshCw className={`w-3.5 h-3.5 ${(isLoading || isRefreshing) ? 'animate-spin' : ''}`} />
@@ -158,7 +158,7 @@ export default function Overview() {
                 {/* Top Genre */}
                 <StatCard className="lg:col-span-3">
                     <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-full bg-gradient-to-br from-yellow-300 to-amber-500 flex items-center justify-center text-black font-bold text-sm">G</div>
+                        <div className="w-10 h-10 rounded-full bg-gradient-to-br from-green-300 to-emerald-500 flex items-center justify-center text-black font-bold text-sm">G</div>
                         <div className="min-w-0">
                             <p className="text-[11px] text-white/50 leading-tight">TOP GENRE</p>
                             <p className="text-sm font-medium leading-tight truncate capitalize">{topGenre?.name || (topLoaded ? '—' : 'Loading…')}</p>
@@ -190,13 +190,13 @@ export default function Overview() {
                             icon={Users}
                             value={snapshot?.artistCount?.toLocaleString() || '—'}
                             label="artists"
-                            tone="orange"
+                            tone="green"
                         />
                         <SnapshotStat
                             icon={Disc3}
                             value={snapshot?.albumCount?.toLocaleString() || '—'}
                             label="albums"
-                            tone="amber"
+                            tone="emerald"
                         />
                         <SnapshotStat
                             icon={Calendar}
@@ -273,7 +273,7 @@ export default function Overview() {
                             </div>
                         )
                     ) : (
-                        <BarLineChart data={activeData} color="#ea580c" />
+                        <BarLineChart data={activeData} color="#16a34a" />
                     )}
                     <p className="mt-4 text-xs text-white/40">
                         {analyticsTab === 'Decades' && 'How your saved tracks distribute across release decades.'}
@@ -327,12 +327,12 @@ export default function Overview() {
                         <div className="flex-1 flex flex-col items-center justify-center text-center py-6 text-white/40">
                             <Disc3 className="w-7 h-7 mb-2 opacity-50" />
                             <p className="text-xs">No saved playlists yet.</p>
-                            <Link to="/dashboard/sort" className="text-[11px] mt-2 text-orange-400 hover:text-orange-300">Try AI Sort →</Link>
+                            <Link to="/dashboard/sort" className="text-[11px] mt-2 text-green-400 hover:text-green-300">Try AI Sort →</Link>
                         </div>
                     ) : (
                         <div className="space-y-2 -mr-2 pr-2 overflow-y-auto max-h-[340px]">
                             {savedPlaylists.map((p, i) => {
-                                const colors = ['from-cyan-400 to-blue-500', 'from-yellow-400 to-orange-500', 'from-emerald-400 to-green-500', 'from-purple-400 to-fuchsia-500']
+                                const colors = ['from-cyan-400 to-blue-500', 'from-teal-400 to-green-500', 'from-emerald-400 to-green-600', 'from-purple-400 to-fuchsia-500']
                                 const c = colors[i % colors.length]
                                 const isPushing = pushingIds.has(p.id)
                                 return (
@@ -373,16 +373,16 @@ export default function Overview() {
 
                 <Link
                     to="/dashboard/sort"
-                    className="lg:col-span-5 rounded-3xl bg-gradient-to-br from-orange-500/15 via-orange-600/10 to-amber-500/10 border border-orange-400/30 p-6 hover:border-orange-400/60 transition-colors group flex flex-col justify-center"
+                    className="lg:col-span-5 rounded-3xl bg-gradient-to-br from-green-500/15 via-green-600/10 to-emerald-500/10 border border-green-400/30 p-6 hover:border-green-400/60 transition-colors group flex flex-col justify-center"
                 >
-                    <div className="w-12 h-12 rounded-full bg-gradient-to-br from-orange-400 to-orange-600 flex items-center justify-center shadow-lg shadow-orange-500/30 mb-4">
+                    <div className="w-12 h-12 rounded-full bg-gradient-to-br from-green-400 to-green-600 flex items-center justify-center shadow-lg shadow-green-500/30 mb-4">
                         <Sparkles className="w-5 h-5 text-white" />
                     </div>
                     <h3 className="text-xl font-medium">Sort {trackCount || 'your'} tracks with Gemini</h3>
                     <p className="text-sm text-white/60 mt-1">
                         Pick parameters, let AI cluster them into named playlists, then push to Spotify.
                     </p>
-                    <div className="mt-4 inline-flex items-center text-xs text-orange-300 group-hover:text-orange-200">
+                    <div className="mt-4 inline-flex items-center text-xs text-green-300 group-hover:text-green-200">
                         Open AI Sort <ChevronRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
                     </div>
                 </Link>
@@ -400,7 +400,7 @@ export default function Overview() {
 function ArtistCard({ artist, rank }) {
     return (
         <div className="group relative rounded-2xl bg-white/[0.03] border border-white/[0.06] p-3 hover:bg-white/[0.05] hover:border-white/15 transition-colors">
-            <div className="relative aspect-square rounded-xl overflow-hidden mb-2.5 bg-gradient-to-br from-purple-500/20 to-orange-500/10">
+            <div className="relative aspect-square rounded-xl overflow-hidden mb-2.5 bg-gradient-to-br from-purple-500/20 to-green-500/10">
                 {artist.image ? (
                     <img src={artist.image} alt={artist.name} loading="lazy" className="w-full h-full object-cover" />
                 ) : (
@@ -428,10 +428,10 @@ function StatCard({ children, className = '' }) {
     )
 }
 
-function SnapshotStat({ icon: Icon, value, label, tone = 'orange' }) {
+function SnapshotStat({ icon: Icon, value, label, tone = 'green' }) {
     const tones = {
-        orange: 'from-orange-500/20 to-orange-500/5 text-orange-300',
-        amber: 'from-amber-500/20 to-amber-500/5 text-amber-300',
+        green: 'from-green-500/20 to-green-500/5 text-green-300',
+        emerald: 'from-emerald-500/20 to-emerald-500/5 text-emerald-300',
         violet: 'from-violet-500/20 to-violet-500/5 text-violet-300'
     }
     return (

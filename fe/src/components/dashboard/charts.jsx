@@ -28,11 +28,11 @@ export function Sparkline({ data, color = '#f97316', filled = true, height = 60 
 
 export function GaugeChart({ percent = 75, label = '' }) {
     const segments = [
-        { color: '#ea580c', from: 0, to: 0.2 },
-        { color: '#f59e0b', from: 0.2, to: 0.4 },
-        { color: '#fbbf24', from: 0.4, to: 0.6 },
+        { color: '#16a34a', from: 0, to: 0.2 },
+        { color: '#059669', from: 0.2, to: 0.4 },
+        { color: '#34d399', from: 0.4, to: 0.6 },
         { color: '#a78bfa', from: 0.6, to: 0.8 },
-        { color: '#22c55e', from: 0.8, to: 1 },
+        { color: '#4ade80', from: 0.8, to: 1 },
     ]
     const cx = 150, cy = 140, r = 110
     const polar = (t) => {
@@ -54,7 +54,7 @@ export function GaugeChart({ percent = 75, label = '' }) {
                     <path key={i} d={arc(s.from + 0.01, s.to - 0.01)} stroke={s.color} strokeWidth="22" strokeLinecap="round" fill="none" />
                 ))}
                 <circle cx={mx} cy={my} r="14" fill="white" stroke="rgba(0,0,0,0.3)" strokeWidth="1" />
-                <rect x={mx - 6} y={my - 6} width="12" height="12" rx="2" fill="#ea580c" />
+                <rect x={mx - 6} y={my - 6} width="12" height="12" rx="2" fill="#16a34a" />
             </svg>
             {label && (
                 <p className="absolute left-1/2 -translate-x-1/2 bottom-2 text-xs text-white/50 text-center w-full">
@@ -69,7 +69,7 @@ export function GaugeChart({ percent = 75, label = '' }) {
  * Single-series area+line chart with x labels and a y axis.
  * data: [{ label, value }]
  */
-export function BarLineChart({ data, color = '#ea580c', height = 220 }) {
+export function BarLineChart({ data, color = '#16a34a', height = 220 }) {
     if (!data || data.length === 0) {
         return <div className="h-[220px] flex items-center justify-center text-xs text-white/30">No data yet.</div>
     }
