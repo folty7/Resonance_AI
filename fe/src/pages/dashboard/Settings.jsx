@@ -100,10 +100,11 @@ export default function Settings() {
                     </div>
 
                     <div className="mt-6 pt-5 border-t border-white/[0.06]">
-                        <p className="flex items-center gap-2 text-[12px] text-white/60 mb-2">
-                            <Shield className="w-3.5 h-3.5 text-emerald-400" />
-                            Your key never leaves your browser except as a request header to Lyra's backend, which
-                            forwards it directly to Google for that one Gemini call. It's never logged or persisted server-side.
+                        <p className="flex items-start gap-3 text-[12px] text-white/60 mb-2 leading-relaxed">
+                            <Shield className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
+                            <span>
+                                <strong className="text-white/80">Security Note:</strong> Your API key is stored strictly in your browser's local storage. It is <em>never</em> saved to our database. It is only transmitted to our backend during an active AI Sort. For maximum security, we recommend generating a dedicated key for Lyra and revoking it in Google AI Studio if you stop using the app.
+                            </span>
                         </p>
                     </div>
                 </div>

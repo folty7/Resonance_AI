@@ -19,10 +19,12 @@ export const apiClient = axios.create({
     withCredentials: true
 });
 
-// Attach the user's Gemini key (if they set one in Settings) on every request.
-// Backend only reads it on /sort but it's harmless elsewhere.
+// Attach the user's Gemini key (if they set one in Settings) ONLY on the /sort endpoint.
+// This prevents accidental key leakage to other API routes.
 apiClient.interceptors.request.use((config) => {
-    const key = getStoredGeminiKey();
-    if (key) config.headers['x-gemini-api-key'] = key;
+    if (config.url && config.url.includes('/sort')) {
+        const key = getStoredGeminiKey();
+        if (key) config.headers['x-gemini-api-key'] = key;
+    }
     return config;
 });
