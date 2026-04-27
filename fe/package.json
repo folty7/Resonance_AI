@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "build:ghpages": "vite build --config vite.ghpages.config.js",
     "lint": "eslint .",
     "preview": "vite preview"
   },
